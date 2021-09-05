@@ -1,0 +1,27 @@
+﻿.filter-content {
+    display: flex;
+    flex-wrap: nowrap;
+    width: 1000px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.filter {
+    color: #eaf0ff;
+    background: #7d48f1;
+    margin-top: 10px;
+    padding: 1px;
+    border: solid 1px #a580f6;
+    border-radius: 3px 3px 3px 3px;
+}
+
+.filter-delete {
+    padding-right: 4px;
+    color: #f63333;
+    margin-top: 13px;
+}
+
+.filter:hover
+{
+    color: #a580f6;
+}

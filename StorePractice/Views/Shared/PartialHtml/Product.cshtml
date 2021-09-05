@@ -1,0 +1,16 @@
+﻿@model Product
+    <a asp-action="ProductProfile" asp-route-productId="@Model.ProductID" style="text-decoration: none; color: #000">
+        <div class="box">
+            @if (Model.Discount)
+            {
+                <div class="style-discount">
+                    Discount
+                </div>
+            }
+            <div class="text-aling">
+                <h3>@Model.Name</h3>
+                <h3>@Model.Price.ToString("C")</h3>
+                <h3>@Model.ProductID</h3>
+            </div>
+        </div>
+    </a>

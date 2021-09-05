@@ -1,0 +1,29 @@
+﻿.pagination-style {
+    margin-right: auto;
+    margin-left: auto;
+    width: 1000px;
+}
+
+.pagination {
+    border: solid 1px gray;
+    padding: 1px;
+    margin: 2px;
+    background: inherit
+}
+
+.pagination:hover 
+{
+    background: #a580f6;
+    color: #eaf0ff
+}
+
+.pagination-char
+{
+    padding: 5px;
+}
+
+.corrected
+{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}

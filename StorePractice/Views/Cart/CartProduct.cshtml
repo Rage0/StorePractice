@@ -1,0 +1,22 @@
+﻿@model Cart
+
+@{
+    ViewBag.Title = "Cart";
+}
+
+@if (Model.GetItem.Count() == 0)
+{
+    <div style="text-align: center">
+        <h2>Cart is Empty</h2>
+    </div>
+}
+else
+{
+    @foreach (CartLine cartLine in Model.GetItem)
+    {
+        <div><h3>Name: @cartLine.Product.Name</h3> <h3>Quantity: @cartLine.Quantity</h3></div>
+    }
+
+    <a asp-action="List" asp-controller="Product">Continue to shopping</a>
+    <a asp-action="Checkout" asp-controller="Order">Checkout</a>
+}

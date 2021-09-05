@@ -1,0 +1,12 @@
+[
+  {
+    "outputFileName": "wwwroot\\css\\bundle.css",
+    "inputFiles": [
+      "wwwroot\\css\\all-items.css",
+      "wwwroot\\css\\style.css",
+      "wwwroot\\css\\text-style.css",
+      "wwwroot\\css\\filter.css",
+      "wwwroot\\css\\pagination.css"
+    ]
+  }
+]

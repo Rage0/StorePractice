@@ -1,0 +1,35 @@
+﻿@model Order
+
+<div style="padding: 30px;">
+    <form asp-action="AddOrder" asp-controller="Order" method="post">
+        <div>
+            <label asp-for="Name"></label>
+            <input asp-for="Name" value="" />
+        </div>
+        <div>
+            <label asp-for="Line1"></label>
+            <input asp-for="Line1" value="" />
+        </div>
+        <div>
+            <label asp-for="Line2"></label>
+            <input asp-for="Line2" value="" />
+        </div>
+        <div>
+            <label asp-for="Line3"></label>
+            <input asp-for="Line3" value="" />
+        </div>
+        <div>
+            <label asp-for="City"></label>
+            <input asp-for="City" value="" />
+        </div>
+        <div>
+            <label asp-for="Country"></label>
+            <input asp-for="Country" value="" />
+        </div>
+        <div>
+            <label asp-for="Zip"></label>
+            <input asp-for="Zip" value="" />
+        </div>
+        <button type="submit">Send the order</button>
+    </form>
+</div>

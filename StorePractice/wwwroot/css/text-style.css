@@ -1,0 +1,30 @@
+﻿.text-aling 
+{
+    text-align: center;
+    padding-block: 40px;
+}
+
+.text-logo
+{
+    font-family: Corbel;
+    font-size: 25px;
+    color: #eaf0ff;
+
+}
+.text-right
+{
+    margin-left: auto;
+}
+
+.style-discount
+{
+    float: right;
+    background: #f64747;
+    color: #f5e9e9;
+    margin: 2px
+}
+
+.decorate-none
+{
+    text-decoration:none;
+}

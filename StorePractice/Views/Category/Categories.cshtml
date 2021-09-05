@@ -1,0 +1,17 @@
+﻿@model CategoryFilterViewModel
+
+@{
+    ViewBag.Title = "Category";
+}
+
+<div class="pagination-style corrected"
+     page-chars="@Model.CharsCategories"
+     page-char-url="Categories"
+     page-char-css="pagination decorate-none pagination-char">
+</div>
+<div class="pad pad-category">
+    @foreach (var category in Model.Categories)
+    {
+        @await Html.PartialAsync("PartialHtml/Category", category)
+    }
+</div>

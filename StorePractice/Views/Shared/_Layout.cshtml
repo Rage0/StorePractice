@@ -1,0 +1,40 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="~/css/bundle.css" rel="stylesheet" />
+    <link asp-href-include="/lib/font-awesome/css/*.css" rel="stylesheet" />
+</head>
+<body>
+    <div>
+        <div class="flex-display">
+            <form asp-action="ClearFilter" asp-controller="Category" method="post"> @*It's want be a highlight *@
+                <button class="text-logo decorate-none"
+                        style="background: initial; border: initial"
+                        type="submit">Store Product</button>
+            </form>
+            <div class="text-right">
+                <a href="#" class="text-logo decorate-none" style="font-size: 22px;">
+                    <i class="fa fa-sm fa-mail-bulk"></i>
+                </a>
+                <a asp-action="CartProduct" asp-controller="Cart" class="text-logo decorate-none" style="font-size: 22px;">
+                    <i class="fa fa-sm fa-shopping-cart"></i>
+                </a>
+                <a href="#" class="text-logo decorate-none" style="font-size: 22px;">
+                    <i class="fa fa-sm fa-user "></i>
+                </a>
+            </div>
+        </div>
+    </div>
+    @if (TempData["Message"] != null)
+    {
+        <div style="text-align: center; background-color: #62c0ff">
+            <h4>@TempData["Message"]</h4>
+        </div>
+    }
+    <div>
+        @RenderBody()
+    </div>
+</body>
+</html>

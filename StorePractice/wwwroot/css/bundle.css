@@ -1,0 +1,160 @@
+* 
+{
+    margin: 0;
+    padding: 0;
+}
+
+body 
+{
+    overflow-y: auto;
+    scroll-behavior:smooth;
+    position: fixed;
+    background: #eaf0ff;
+    width: 100%;
+    height: 100%;
+    box-shadow: inset 0px 0px 100px #bfc2d0;
+}
+.flex-display
+{
+    display: flex;
+    background: #a07fe8;
+    padding: 32px;
+    box-shadow: inset 0px 0px 100px #6038b9;
+    border-radius: 0 0 10px 10px;
+}
+
+.box
+{
+    width: 250px;
+    height: 150px;
+    box-shadow: 0px 0px 10px #808080;
+    margin: 10px;
+}
+
+.box.box-category
+{
+    width: max-content;
+    height: max-content;
+    padding: 5px;
+    margin: 25px;
+    color: #000;
+}
+
+.box:hover 
+{
+    box-shadow: 0px 0px 100px #6038b9;
+}
+
+div.pad 
+{
+    display: flex;
+    flex-wrap: wrap;
+    padding: 15px;
+    margin-right: 100px;
+    margin-left: 100px;
+    
+}
+
+.pad.pad-category
+{
+    margin-left: 15em;
+    margin-right: 15em;
+}
+
+.border-limit {
+    border: 3px #d1d5fb;
+    border-style: double none double none;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    background: #eaf0ff;
+}
+
+
+.text-aling 
+{
+    text-align: center;
+    padding-block: 40px;
+}
+
+.text-logo
+{
+    font-family: Corbel;
+    font-size: 25px;
+    color: #eaf0ff;
+
+}
+.text-right
+{
+    margin-left: auto;
+}
+
+.style-discount
+{
+    float: right;
+    background: #f64747;
+    color: #f5e9e9;
+    margin: 2px
+}
+
+.decorate-none
+{
+    text-decoration:none;
+}
+
+.filter-content {
+    display: flex;
+    flex-wrap: nowrap;
+    width: 1000px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.filter {
+    color: #eaf0ff;
+    background: #7d48f1;
+    margin-top: 10px;
+    padding: 1px;
+    border: solid 1px #a580f6;
+    border-radius: 3px 3px 3px 3px;
+}
+
+.filter-delete {
+    padding-right: 4px;
+    color: #f63333;
+    margin-top: 13px;
+}
+
+.filter:hover
+{
+    color: #a580f6;
+}
+
+.pagination-style {
+    margin-right: auto;
+    margin-left: auto;
+    width: 1000px;
+}
+
+.pagination {
+    border: solid 1px gray;
+    padding: 1px;
+    margin: 2px;
+    background: inherit
+}
+
+.pagination:hover 
+{
+    background: #a580f6;
+    color: #eaf0ff
+}
+
+.pagination-char
+{
+    padding: 5px;
+}
+
+.corrected
+{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}

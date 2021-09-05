@@ -1,0 +1,16 @@
+﻿@model Product
+
+@{
+    ViewBag.Title = "Product profile";
+}
+
+<div>
+    <h2>@Model.Name</h2>
+    <h3>@Model.Discription</h3>
+    <h2>@Model.Price</h2>
+    <h4>@Model.Quantity</h4>
+</div>
+<form id="@Model.ProductID" asp-action="AddToCart" asp-controller="Cart" method="post">
+    <input type="hidden" asp-for="ProductID" />
+    <button type="submit">Add</button>
+</form>

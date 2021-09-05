@@ -1,0 +1,55 @@
+﻿.flex-display
+{
+    display: flex;
+    background: #a07fe8;
+    padding: 32px;
+    box-shadow: inset 0px 0px 100px #6038b9;
+    border-radius: 0 0 10px 10px;
+}
+
+.box
+{
+    width: 250px;
+    height: 150px;
+    box-shadow: 0px 0px 10px #808080;
+    margin: 10px;
+}
+
+.box.box-category
+{
+    width: max-content;
+    height: max-content;
+    padding: 5px;
+    margin: 25px;
+    color: #000;
+}
+
+.box:hover 
+{
+    box-shadow: 0px 0px 100px #6038b9;
+}
+
+div.pad 
+{
+    display: flex;
+    flex-wrap: wrap;
+    padding: 15px;
+    margin-right: 100px;
+    margin-left: 100px;
+    
+}
+
+.pad.pad-category
+{
+    margin-left: 15em;
+    margin-right: 15em;
+}
+
+.border-limit {
+    border: 3px #d1d5fb;
+    border-style: double none double none;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    background: #eaf0ff;
+}
+

@@ -1,0 +1,7 @@
+﻿@model IEnumerable<Order>
+
+@Model.Count()
+@foreach (Order order in Model)
+{
+    <h3>@order.Name</h3>
+}
