@@ -39,7 +39,7 @@ namespace StorePractice.Infrastructure
                 {
                     Console.WriteLine($"Equals: {productCategories.Current.Name == category.Name}");
                     Console.WriteLine($"Category product: {productCategories.Current.Name}; Category: {category.Name}\n");
-                    if (productCategories.Current.Name == category.Name)
+                    if (productCategories.Current == category)
                     {
                         return true;
                     }
