@@ -15,7 +15,15 @@ namespace StorePractice.Models.SqlModels
         public DbSet<Order> Orders { get; set; }
         public ApplicationsContext(DbContextOptions<ApplicationsContext> options) : base(options)
         {
+            /*Database.EnsureDeleted();*/
             Database.EnsureCreated();
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Product>()
+                .HasMany(c => c.Categories)
+                .WithMany(p => p.HasProducts);
         }
     }
 }

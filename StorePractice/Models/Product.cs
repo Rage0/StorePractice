@@ -16,7 +16,13 @@ namespace StorePractice.Models
         public int Quantity { get; set; } = 1;
         public string Name { get; set; }
         public string Discription { get; set; }
-        public List<Category> Category { get; set; }
+        public List<Category> Categories { get; set; }
+
+        public Product()
+        {
+            Categories = new List<Category>();
+        }
+
         public bool Discount { get; set; }
 
     }

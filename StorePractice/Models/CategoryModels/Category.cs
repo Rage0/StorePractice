@@ -9,5 +9,6 @@ namespace StorePractice.Models
     {
         public string Name { get; set; }
         public int CategoryID { get; set; }
+        public List<Product> HasProducts { get; set; }
     }
 }

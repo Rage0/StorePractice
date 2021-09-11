@@ -16,13 +16,13 @@ namespace StorePractice.Models.SqlModels
 
         public void AddProduct(Product product)
         {
-            repository.Attach(product.Category);
+            repository.Attach(product.Categories);
             repository.Products.Add(product);
             repository.SaveChanges();
         }
 
         public IQueryable<Product> GetProducts() => repository.Products
-            .Include(o => o.Category);
+            .Include(o => o.Categories);
     }
 
 }

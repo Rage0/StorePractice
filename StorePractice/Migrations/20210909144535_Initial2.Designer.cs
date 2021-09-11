@@ -3,36 +3,23 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using StorePractice.Models.SqlModels;
 
 namespace StorePractice.Migrations
 {
     [DbContext(typeof(ApplicationsContext))]
-    partial class ApplicationsContextModelSnapshot : ModelSnapshot
+    [Migration("20210909144535_Initial2")]
+    partial class Initial2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.7")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("CategoryProduct", b =>
-                {
-                    b.Property<int>("CategoriesCategoryID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("HasProductsProductID")
-                        .HasColumnType("int");
-
-                    b.HasKey("CategoriesCategoryID", "HasProductsProductID");
-
-                    b.HasIndex("HasProductsProductID");
-
-                    b.ToTable("CategoryProduct");
-                });
 
             modelBuilder.Entity("StorePractice.Models.CartLine", b =>
                 {
@@ -69,7 +56,12 @@ namespace StorePractice.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("ProductID")
+                        .HasColumnType("int");
+
                     b.HasKey("CategoryID");
+
+                    b.HasIndex("ProductID");
 
                     b.ToTable("Categories");
                 });
@@ -134,21 +126,6 @@ namespace StorePractice.Migrations
                     b.ToTable("Products");
                 });
 
-            modelBuilder.Entity("CategoryProduct", b =>
-                {
-                    b.HasOne("StorePractice.Models.Category", null)
-                        .WithMany()
-                        .HasForeignKey("CategoriesCategoryID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("StorePractice.Models.Product", null)
-                        .WithMany()
-                        .HasForeignKey("HasProductsProductID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("StorePractice.Models.CartLine", b =>
                 {
                     b.HasOne("StorePractice.Models.Order", null)
@@ -162,9 +139,21 @@ namespace StorePractice.Migrations
                     b.Navigation("Product");
                 });
 
+            modelBuilder.Entity("StorePractice.Models.Category", b =>
+                {
+                    b.HasOne("StorePractice.Models.Product", null)
+                        .WithMany("Categories")
+                        .HasForeignKey("ProductID");
+                });
+
             modelBuilder.Entity("StorePractice.Models.Order", b =>
                 {
                     b.Navigation("Lines");
+                });
+
+            modelBuilder.Entity("StorePractice.Models.Product", b =>
+                {
+                    b.Navigation("Categories");
                 });
 #pragma warning restore 612, 618
         }

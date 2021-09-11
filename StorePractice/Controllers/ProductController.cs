@@ -24,7 +24,6 @@ namespace StorePractice.Controllers
 
         public ViewResult List(int pageNow = 1)
         {
-
             return View(new PageAndProductViewModel
             {
                 Products = productRepository.GetProducts()
@@ -32,7 +31,6 @@ namespace StorePractice.Controllers
                 .OrderBy(p => p.ProductID)
                 .Where(p => SortCollectionCategory(p) ||
                         categories.Categories.Count == 0)
-                /*.SortByArray(categories.Categories)*/
                 .Skip((pageNow - 1) * PageSize)
                 .Take(PageSize)
                 ,
@@ -40,7 +38,7 @@ namespace StorePractice.Controllers
                 Pages = new Page
                 {
                     TotalItem = categories.Categories.Count == 0 ? productRepository.GetProducts().Count() :
-                                 productRepository.GetProducts().ToList().SortByArray(categories.Categories).Count(),
+                                 productRepository.GetProducts().ToList().Where(p => SortCollectionCategory(p)).Count(),
 
                     PageSize = this.PageSize,
                 },
@@ -57,24 +55,16 @@ namespace StorePractice.Controllers
 
         private bool SortCollectionCategory(Product product)
         {
-            /*Console.WriteLine($"intersect {product.Category.Intersect(categories.Categories).Any()}");*/
 
-            var productCategories = product.Category.GetEnumerator();
+            var productCategories = product.Categories.GetEnumerator();
 
             while (productCategories.MoveNext())
             {
-                /*Console.WriteLine($"product: {product.Name}");*/
                 foreach (Category category in categories.Categories)
                 {
-                    /*Console.WriteLine($"Equals: {productCategories.Current.Name == category.Name}");
-                    Console.WriteLine($"Category product: {productCategories.Current.Name}; Category: {category.Name}\n");*/
-                    if (productCategories.Current.Name == category.Name)
+                    if (productCategories.Current.CategoryID == category.CategoryID)
                     {
                         return true;
-                    }
-                    else
-                    {
-                        return false;
                     }
                 }
             }
