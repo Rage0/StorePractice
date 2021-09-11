@@ -109,7 +109,7 @@ namespace StorePractice.Models.SqlModels
                     {
                         Name = "Lib liner",
                         Price = 255.23M,
-                        Categories = new List<Category>() { categories[5] }
+                        Categories = new List<Category>() { categories[4] }
                     },
                     new Product { Name = "Instruments", Price = 520.23M },
                     new Product

@@ -8,19 +8,19 @@ namespace StorePractice.Models.SqlModels
 {
     public class EfCategoryRepository : ICategoryRepository
     {
-        private ApplicationsContext repository;
+        private ApplicationsContext _repository;
 
         public EfCategoryRepository(ApplicationsContext repo)
         {
-            repository = repo;
+            _repository = repo;
         }
 
-        public IQueryable<Category> GetCategories() => repository.Categories;
+        public IQueryable<Category> GetCategories() => _repository.Categories;
 
         public void SaveCategory(Category category)
         {
-            repository.Categories.Add(category);
-            repository.SaveChanges();
+            _repository.Categories.Add(category);
+            _repository.SaveChanges();
         }
 
     }

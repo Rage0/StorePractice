@@ -33,10 +33,9 @@ namespace StorePractice.Controllers
         }
 
         [HttpPost]
-        public RedirectToActionResult AddToFilterCategories()
+        public RedirectToActionResult AddToFilterCategories(int categoryId)
         {
-            int categoryIdToForm = Int32.Parse(Request.Form["categoryId"]);
-            Category category = repository.GetCategories().FirstOrDefault(c => c.CategoryID == categoryIdToForm);
+            Category category = repository.GetCategories().FirstOrDefault(c => c.CategoryID == categoryId);
 
             if (category != null)
             {
@@ -47,10 +46,9 @@ namespace StorePractice.Controllers
         }
 
         [HttpPost]
-        public RedirectToActionResult DeleteCategoryToFilter()
+        public RedirectToActionResult DeleteCategoryToFilter(int categoryId)
         {
-            int categoryIdToForm = Int32.Parse(Request.Form["categoryId"]);
-            Category category = repository.GetCategories().FirstOrDefault(c => c.CategoryID == categoryIdToForm);
+            Category category = repository.GetCategories().FirstOrDefault(c => c.CategoryID == categoryId);
             
             sessionCategories.RemoveCategory(category);
 

@@ -55,7 +55,6 @@ namespace StorePractice.Controllers
 
         private bool SortCollectionCategory(Product product)
         {
-
             var productCategories = product.Categories.GetEnumerator();
 
             while (productCategories.MoveNext())

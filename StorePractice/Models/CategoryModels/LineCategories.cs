@@ -7,30 +7,30 @@ namespace StorePractice.Models
 {
     public class LineCategories
     {
-        private List<Category> categories = new List<Category>();
-        public virtual List<Category> Categories => categories;
+        private List<Category> _categories = new List<Category>();
+        public virtual List<Category> Categories => _categories;
 
         public virtual void AddCategory(Category category)
         {
-            Category HasCategory = categories
+            Category HasCategory = _categories
                 .Where(c => c.CategoryID == category.CategoryID)
                 .FirstOrDefault();
 
             if (HasCategory == null)
             {
-                categories.Add(category);
+                _categories.Add(category);
             }
             
         }
 
         public virtual void RemoveCategory(Category category)
         {
-            categories.RemoveAll(c => c.CategoryID == category.CategoryID);
+            _categories.RemoveAll(c => c.CategoryID == category.CategoryID);
         }
 
         public virtual void Clear()
         {
-            categories.Clear();
+            _categories.Clear();
         }
 
     }

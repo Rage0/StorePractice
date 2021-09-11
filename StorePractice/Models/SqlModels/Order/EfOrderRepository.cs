@@ -8,23 +8,23 @@ namespace StorePractice.Models.SqlModels
 {
     public class EfOrderRepository : IOrderRepository
     {
-        private ApplicationsContext repository;
+        private ApplicationsContext _repository;
         public EfOrderRepository(ApplicationsContext repo)
         {
-            repository = repo;
+            _repository = repo;
         }
 
         public void AddOrder(Order order)
         {
-            repository.AttachRange(order.Lines.Select(l => l.Product));
+            _repository.AttachRange(order.Lines.Select(l => l.Product));
             if (order.OrderID == 0)
             {
-                repository.Orders.Add(order);
+                _repository.Orders.Add(order);
             }
-            repository.SaveChanges();
+            _repository.SaveChanges();
         }
 
-        public IQueryable<Order> GetOrders() => repository.Orders
+        public IQueryable<Order> GetOrders() => _repository.Orders
             .Include(o => o.Lines)
             .ThenInclude(o => o.Product);
     }

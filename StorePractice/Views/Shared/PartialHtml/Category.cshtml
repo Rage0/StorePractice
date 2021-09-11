@@ -1,6 +1,9 @@
 ﻿@model Category
 
-<form asp-controller="Category" asp-action="AddToFilterCategories" method="post">
+@using (Html.BeginForm("AddToFilterCategories", "Category", FormMethod.Post ))
+{
+<form method="post">
     <input type="hidden" name="categoryId" value="@Model.CategoryID" />
     <button type="submit">@Model.Name</button>
 </form>
+}
