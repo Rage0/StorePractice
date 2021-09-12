@@ -107,11 +107,6 @@ div.pad {
     text-decoration: none;
 }
 
-.absolute-none {
-    color: #eaf0ff;
-    pointer-events: none;
-}
-
 .filter-content {
     display: flex;
     flex-wrap: nowrap;
