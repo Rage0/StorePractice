@@ -10,6 +10,7 @@ namespace StorePractice.Models.ViewModels
     {
         public IEnumerable<Product> Products { get; set; }
         public Page Pages { get; set; }
-        public LineCategories CurrentCategory { get; set; }
+        public LineCategories CurrentCategories { get; set; }
+        public int CurrentPage { get; set; }
     }
 }

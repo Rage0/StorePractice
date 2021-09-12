@@ -26,28 +26,42 @@ namespace StorePractice.Infrastructure
         [HtmlAttributeNotBound]
         public ViewContext ViewContext { get; set; }
         public Page PageModel { get; set; }
-        [HtmlAttributeName(DictionaryAttributePrefix = "page-url-value-")]
         public Dictionary<string, object> PageUrlValue { get; set; } = new Dictionary<string, object>();
         public string PageUrl { get; set; }
         public string PageCss { get; set; }
+        public int PageCurrent { get; set; }
+        public string PageCurrentCss { get; set; }
+
 
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
             IUrlHelper urlHelper = urlHelperFactory.GetUrlHelper(ViewContext);
             TagBuilder result = new TagBuilder("div");
-            for (int i = 1; i <= PageModel.TotalPages; i++)
+            for (int page = 1; page <= PageModel.TotalPages; page++)
             {
-                TagBuilder tag = new TagBuilder("a");
-                PageUrlValue["pageNow"] = i;
-                tag.Attributes["href"] = urlHelper.Action(PageUrl, PageUrlValue);
-
-                if (PageCss != null )
+                if (page > 4 && page < PageModel.TotalPages - 3)
                 {
-                    tag.AddCssClass(PageCss);
+                    result.InnerHtml.Append(".");
                 }
+                else
+                {
+                    TagBuilder tag = new TagBuilder("a");
+                    PageUrlValue["pageNow"] = page;
+                    tag.Attributes["href"] = urlHelper.Action(PageUrl, PageUrlValue);
 
-                tag.InnerHtml.Append(i.ToString());
-                result.InnerHtml.AppendHtml(tag);
+                    if (PageCurrentCss != null && page == PageCurrent)
+                    {
+                        tag.AddCssClass(PageCurrentCss);
+                    }
+
+                    if (PageCss != null)
+                    {
+                        tag.AddCssClass(PageCss);
+                    }
+
+                    tag.InnerHtml.Append(page.ToString());
+                    result.InnerHtml.AppendHtml(tag);
+                }
             }
             output.Content.AppendHtml(result.InnerHtml);
         }

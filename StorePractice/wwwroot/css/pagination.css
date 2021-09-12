@@ -1,17 +1,19 @@
 ﻿.pagination-style {
-    margin-right: auto;
     margin-left: auto;
-    width: 1000px;
+    margin-right: auto;
+    width: 40%;
 }
 
 .pagination {
+    border-radius: 10px 10px 10px 10px;
     border: solid 1px gray;
-    padding: 1px;
-    margin: 2px;
+    padding: 4px;
+    margin: 3px;
+    color: #6f2fee;
     background: inherit
 }
 
-.pagination:hover 
+.pagination:hover, .absolute-none
 {
     background: #a580f6;
     color: #eaf0ff
@@ -27,3 +29,6 @@
     margin-top: 10px;
     margin-bottom: 10px;
 }
+
+
+

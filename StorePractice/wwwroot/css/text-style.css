@@ -4,13 +4,19 @@
     padding-block: 40px;
 }
 
-.text-logo
+.text-logo 
 {
     font-family: Corbel;
     font-size: 25px;
     color: #eaf0ff;
-
+    
 }
+
+.text-logo:hover 
+{
+    text-shadow: 0 0 2em #eaf0ff;
+}
+
 .text-right
 {
     margin-left: auto;
@@ -26,5 +32,5 @@
 
 .decorate-none
 {
-    text-decoration:none;
+    text-decoration: none;
 }

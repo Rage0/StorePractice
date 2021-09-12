@@ -14,7 +14,7 @@ namespace StorePractice.Controllers
     {
         private IProductRepository productRepository;
         private LineCategories categories; // Session categories
-        public int PageSize { get; set; } = 8;
+        public int PageSize { get; } = 12;
 
         public ProductController(IProductRepository repo, LineCategories line)
         {
@@ -43,8 +43,11 @@ namespace StorePractice.Controllers
                     PageSize = this.PageSize,
                 },
 
-                CurrentCategory = categories
-            }) ;
+                CurrentCategories = categories,
+
+                CurrentPage = pageNow
+
+            });
         }
 
         public IActionResult ProductProfile(int productId)

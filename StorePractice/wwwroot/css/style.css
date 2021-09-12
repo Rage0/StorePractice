@@ -7,12 +7,13 @@
     border-radius: 0 0 10px 10px;
 }
 
-.box
+.box 
 {
     width: 250px;
     height: 150px;
     box-shadow: 0px 0px 10px #808080;
-    margin: 10px;
+    border-radius: 2px 15px 2px 40px;
+    margin: 25px
 }
 
 .box.box-category
@@ -29,24 +30,24 @@
     box-shadow: 0px 0px 100px #6038b9;
 }
 
-div.pad 
-{
+div.pad {
     display: flex;
     flex-wrap: wrap;
     padding: 15px;
-    margin-right: 100px;
-    margin-left: 100px;
-    
+    margin-right: 35px;
+    margin-left: 35px;
 }
 
 .pad.pad-category
 {
     margin-left: 15em;
     margin-right: 15em;
+    
 }
 
 .border-limit {
     border: 3px #d1d5fb;
+    min-height: 70%;
     border-style: double none double none;
     margin-bottom: 10px;
     margin-top: 10px;

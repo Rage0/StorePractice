@@ -8,7 +8,7 @@
     <a asp-controller="Category" asp-action="Categories" class="decorate-none">
         <i class="fa fa-filter filter"></i>:
     </a>
-    @foreach (Category category in Model.CurrentCategory.Categories)
+    @foreach (Category category in Model.CurrentCategories.Categories)
     {
         <div style="display:flex;">
             <h4 class="filter" style="pointer-events:none">@category.Name</h4>
@@ -43,11 +43,20 @@
         </div>
     }
 </div>
-<div page-model="@Model.Pages"
-     page-url="List"
-     page-css="pagination decorate-none"
-     page-url-value-category="@Model.CurrentCategory"
-     class="pagination-style">
+<div style="padding: 10px;" class="pagination-style">
+    <div page-model="@Model.Pages"
+             page-url="List"
+             page-css="pagination decorate-none"
+             page-current="@Model.CurrentPage"
+             page-current-css="absolute-none">
+    </div>
+</div>
+<div style="width: auto;
+      background: #a07fe8;
+      box-shadow: inset 0px 0px 100px #6038b9;
+      border-radius: 10px 10px 0 0;
+      padding: 50px ">
+
 </div>
 
 

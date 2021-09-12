@@ -29,7 +29,19 @@ namespace StorePractice.Models.SqlModels
                     new Category { Name = "Accessory" },
                     new Category { Name = "Discount" }
                 );
-                repository.SaveChanges();
+
+                for (int i = 0; i < 100; i++)
+                {
+                    repository.Categories.Add(
+                        new Category()
+                        {
+                            Name = $"Category {i}"
+                        }
+                        );
+                    repository.SaveChanges();
+                }
+
+                
             }
 
             var categories = repository.Categories.ToList();
@@ -82,7 +94,7 @@ namespace StorePractice.Models.SqlModels
                         Name = "Toy pistol",
                         Price = 70.23M,
                         Discount = true,
-                        Categories = new List<Category>() { categories[1]}
+                        Categories = new List<Category>() { categories[1] }
                     },
                     new Product
                     {
@@ -101,7 +113,7 @@ namespace StorePractice.Models.SqlModels
                     {
                         Name = "Hat",
                         Price = 120.23M,
-                        Categories = new List<Category>() { categories[5], categories[0]}
+                        Categories = new List<Category>() { categories[5], categories[0] }
                     },
                     new Product { Name = "Book", Price = 285.23M },
                     new Product { Name = "Glass", Price = 110.23M, Discount = true },
@@ -124,8 +136,18 @@ namespace StorePractice.Models.SqlModels
                         Price = 47.23M,
                         Categories = new List<Category>() { categories[3] }
                     }
-                ) ;
-                repository.SaveChanges();
+                );
+
+                for (int i = 0; i < 1000; i++)
+                {
+                    repository.Products.Add(new Product()
+                    {
+                        Name = $"Product {i}",
+                        Price = 100,
+                    });
+                    repository.SaveChanges();
+                }
+                
             }
 
             
