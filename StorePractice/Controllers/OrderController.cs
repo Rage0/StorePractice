@@ -11,12 +11,12 @@ namespace StorePractice.Controllers
 {
     public class OrderController : Controller
     {
-        private IOrderRepository repository;
-        private Cart cartMain;
+        private IOrderRepository _orderRepository;
+        private Cart _sessionCart;
         public OrderController(IOrderRepository repo, Cart cart)
         {
-            repository = repo;
-            cartMain = cart;
+            _orderRepository = repo;
+            _sessionCart = cart;
         }
 
         public IActionResult Checkout() => View(new Order());
@@ -26,8 +26,8 @@ namespace StorePractice.Controllers
         {
             if (order.OrderID == 0)
             {
-                order.Lines = cartMain.GetItem.ToArray();
-                repository.AddOrder(order);
+                order.Lines = _sessionCart.GetItem.ToArray();
+                _orderRepository.AddOrder(order);
                 TempData.Add("Message", $"Your order added in a list orders {order.Name}");
             }
             
@@ -37,7 +37,7 @@ namespace StorePractice.Controllers
 
         public RedirectToActionResult ClearCart()
         {
-            cartMain.Clear();
+            _sessionCart.Clear();
             return RedirectToAction("List", "Product");
         }
     }

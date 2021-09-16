@@ -34,3 +34,8 @@
 {
     text-decoration: none;
 }
+
+.absolute-none
+{
+    pointer-events: none;
+}

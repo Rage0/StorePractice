@@ -14,11 +14,11 @@ namespace StorePractice.Infrastructure
     [HtmlTargetElement("div", Attributes = "page-chars")]
     public class PageFilterForCategory : TagHelper
     {
-        private IUrlHelperFactory urlHelperFactory;
+        private IUrlHelperFactory _urlHelperFactory;
 
         public PageFilterForCategory(IUrlHelperFactory urlHelper)
         {
-            urlHelperFactory = urlHelper;
+            _urlHelperFactory = urlHelper;
         }
 
         [ViewContext]
@@ -30,7 +30,7 @@ namespace StorePractice.Infrastructure
 
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
-            IUrlHelper url = urlHelperFactory.GetUrlHelper(ViewContext);
+            IUrlHelper url = _urlHelperFactory.GetUrlHelper(ViewContext);
             TagBuilder result = new TagBuilder("div");
             for (int i = 0; i < PageChars.Count(); i++)
             {

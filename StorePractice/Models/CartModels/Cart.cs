@@ -7,17 +7,17 @@ namespace StorePractice.Models
 {
     public class Cart
     {
-        private List<CartLine> cartLines = new List<CartLine>();
+        private List<CartLine> _cartLines = new List<CartLine>();
 
         public virtual void AddItem(Product product)
         {
-            CartLine haveList = cartLines
+            CartLine haveList = _cartLines
                 .Where(p => p.Product.ProductID == product.ProductID)
                 .FirstOrDefault();
 
             if ( haveList == null)
             {
-                cartLines.Add(new CartLine() { Product = product });
+                _cartLines.Add(new CartLine() { Product = product });
             }
             else
             {
@@ -25,17 +25,17 @@ namespace StorePractice.Models
             }
         }
 
-        public IEnumerable<CartLine> GetItem => cartLines;
+        public IEnumerable<CartLine> GetItem => _cartLines;
 
         public virtual void RemoveItem(Product product)
         {
-            CartLine haveList = cartLines.FirstOrDefault(p => p.Product.ProductID == product.ProductID);
+            CartLine haveList = _cartLines.FirstOrDefault(p => p.Product.ProductID == product.ProductID);
 
             if (haveList != null)
             {
                 if (haveList.Quantity <= 1)
                 {
-                    cartLines.Remove(haveList);
+                    _cartLines.Remove(haveList);
                 }
                 else
                 {
@@ -45,6 +45,6 @@ namespace StorePractice.Models
             
         }
 
-        public virtual void Clear() => cartLines.Clear();
+        public virtual void Clear() => _cartLines.Clear();
     }
 }

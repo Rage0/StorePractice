@@ -11,22 +11,22 @@ namespace StorePractice.Controllers
 {
     public class CartController : Controller
     {
-        private IProductRepository productRepository;
-        private Cart cart;
+        private IProductRepository _productRepository;
+        private Cart _sessionCart;
         public CartController(IProductRepository repo, Cart cartProduct)
         {
-            productRepository = repo;
-            cart = cartProduct;
+            _productRepository = repo;
+            _sessionCart = cartProduct;
         }
 
-        public ViewResult CartProduct() => View(cart);
+        public ViewResult CartProduct() => View(_sessionCart);
 
         public RedirectToActionResult AddToCart(int productId)
         {
-            Product product = productRepository.GetProducts().Where(p => p.ProductID == productId).FirstOrDefault();
+            Product product = _productRepository.GetProducts().Where(p => p.ProductID == productId).FirstOrDefault();
             if (product != null)
             {
-                cart.AddItem(product);
+                _sessionCart.AddItem(product);
             }
 
             return RedirectToAction("CartProduct");

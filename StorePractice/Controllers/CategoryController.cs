@@ -11,21 +11,21 @@ namespace StorePractice.Controllers
 {
     public class CategoryController : Controller
     {
-        private ICategoryRepository repository;
-        private List<string> charCategories = new List<string>();
-        private LineCategories sessionCategories;
+        private ICategoryRepository _categoryRepository;
+        private List<string> _charCategories = new List<string>();
+        private LineCategories _sessionCategories;
 
         public CategoryController(ICategoryRepository repo, LineCategories line)
         {
-            repository = repo;
-            sessionCategories = line;
+            _categoryRepository = repo;
+            _sessionCategories = line;
         }
 
         public IActionResult Categories(string charFilter = "A")
         {
             return View(new CategoryFilterViewModel
             {
-                Categories = repository.GetCategories()
+                Categories = _categoryRepository.GetCategories()
                              .Where(f => f.Name.StartsWith(charFilter)),
 
                 CharsCategories = CharCategories()
@@ -35,11 +35,11 @@ namespace StorePractice.Controllers
         [HttpPost]
         public RedirectToActionResult AddToFilterCategories(int categoryId)
         {
-            Category category = repository.GetCategories().FirstOrDefault(c => c.CategoryID == categoryId);
+            Category category = _categoryRepository.GetCategories().FirstOrDefault(c => c.CategoryID == categoryId);
 
             if (category != null)
             {
-                sessionCategories.AddCategory(category);
+                _sessionCategories.AddCategory(category);
             }
 
             return RedirectToAction("List", "Product", new { pageNow = 1 });
@@ -48,9 +48,9 @@ namespace StorePractice.Controllers
         [HttpPost]
         public RedirectToActionResult DeleteCategoryToFilter(int categoryId)
         {
-            Category category = repository.GetCategories().FirstOrDefault(c => c.CategoryID == categoryId);
+            Category category = _categoryRepository.GetCategories().FirstOrDefault(c => c.CategoryID == categoryId);
             
-            sessionCategories.RemoveCategory(category);
+            _sessionCategories.RemoveCategory(category);
 
             return RedirectToAction("List", "Product", new { pageNow = 1 });
         }
@@ -58,23 +58,23 @@ namespace StorePractice.Controllers
         [HttpPost]
         public RedirectToActionResult ClearFilter()
         {
-            sessionCategories.Clear();
+            _sessionCategories.Clear();
 
             return RedirectToAction("List", "Product");
         }
 
         private List<string> CharCategories()
         {
-            foreach (var category in repository.GetCategories().OrderBy(f => f.Name))
+            foreach (var category in _categoryRepository.GetCategories().OrderBy(f => f.Name))
             {
                 var charCategory = category.Name.Substring(0, 1).ToUpper();
 
-                if (!charCategories.Contains(charCategory))
+                if (!_charCategories.Contains(charCategory))
                 {
-                    charCategories.Add(charCategory);
+                    _charCategories.Add(charCategory);
                 }
             }
-            return charCategories;
+            return _charCategories;
         }
     }
 }

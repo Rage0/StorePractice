@@ -12,38 +12,38 @@ namespace StorePractice.Controllers
 {
     public class ProductController : Controller
     {
-        private IProductRepository productRepository;
-        private LineCategories categories; // Session categories
+        private IProductRepository _productRepository;
+        private LineCategories _sessionCategories;
         public int PageSize { get; } = 12;
 
         public ProductController(IProductRepository repo, LineCategories line)
         {
-            productRepository = repo;
-            categories = line;
+            _productRepository = repo;
+            _sessionCategories = line;
         }
 
         public ViewResult List(int pageNow = 1)
         {
             return View(new PageAndProductViewModel
             {
-                Products = productRepository.GetProducts()
+                Products = _productRepository.GetProducts()
                 .ToList()
                 .OrderBy(p => p.ProductID)
                 .Where(p => SortCollectionCategory(p) ||
-                        categories.Categories.Count == 0)
+                        _sessionCategories.Categories.Count == 0)
                 .Skip((pageNow - 1) * PageSize)
                 .Take(PageSize)
                 ,
 
                 Pages = new Page
                 {
-                    TotalItem = categories.Categories.Count == 0 ? productRepository.GetProducts().Count() :
-                                 productRepository.GetProducts().ToList().Where(p => SortCollectionCategory(p)).Count(),
+                    TotalItem = _sessionCategories.Categories.Count == 0 ? _productRepository.GetProducts().Count() :
+                                 _productRepository.GetProducts().ToList().Where(p => SortCollectionCategory(p)).Count(),
 
                     PageSize = this.PageSize,
                 },
 
-                CurrentCategories = categories,
+                SessionCategories = _sessionCategories,
 
                 CurrentPage = pageNow
 
@@ -53,7 +53,7 @@ namespace StorePractice.Controllers
         public IActionResult ProductProfile(int productId)
         {
             return View(
-                productRepository.GetProducts().FirstOrDefault(p => p.ProductID == productId));
+                _productRepository.GetProducts().FirstOrDefault(p => p.ProductID == productId));
         }
 
         private bool SortCollectionCategory(Product product)
@@ -62,7 +62,7 @@ namespace StorePractice.Controllers
 
             while (productCategories.MoveNext())
             {
-                foreach (Category category in categories.Categories)
+                foreach (Category category in _sessionCategories.Categories)
                 {
                     if (productCategories.Current.CategoryID == category.CategoryID)
                     {

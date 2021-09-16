@@ -27,7 +27,7 @@ body
     width: 250px;
     height: 150px;
     box-shadow: 0px 0px 10px #808080;
-    border-radius: 2px 15px 2px 40px;
+    border-radius: 2px 2px 40px 40px;
     margin: 25px
 }
 
@@ -107,6 +107,10 @@ div.pad {
     text-decoration: none;
 }
 
+.absolute-none
+{
+    pointer-events: none;
+}
 .filter-content {
     display: flex;
     flex-wrap: nowrap;
@@ -136,9 +140,7 @@ div.pad {
 }
 
 .pagination-style {
-    margin-left: auto;
-    margin-right: auto;
-    width: 40%;
+    text-align:center;
 }
 
 .pagination {

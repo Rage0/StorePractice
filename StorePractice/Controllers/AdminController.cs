@@ -10,12 +10,12 @@ namespace StorePractice.Controllers
 {
     public class AdminController : Controller
     {
-        private IOrderRepository repository;
+        private IOrderRepository _orderRepository;
         public AdminController(IOrderRepository repo)
         {
-            repository = repo;
+            _orderRepository = repo;
         }
 
-        public ViewResult Index() => View(repository.GetOrders());
+        public ViewResult Index() => View(_orderRepository.GetOrders());
     }
 }
