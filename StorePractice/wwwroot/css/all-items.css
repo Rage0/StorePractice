@@ -4,6 +4,15 @@
     padding: 0;
 }
 
+td, th
+{
+    padding-right: 55px;
+    padding-left: 55px;
+    height: 30px;
+    border: solid 1px black
+}
+
+
 body 
 {
     scroll-behavior:smooth;

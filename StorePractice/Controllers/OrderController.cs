@@ -21,24 +21,66 @@ namespace StorePractice.Controllers
 
         public IActionResult Checkout() => View(new Order());
 
+        public IActionResult EditOrCreate(int orderId)
+        {
+            if (orderId != 0)
+            {
+                Order order = _orderRepository.GetOrders().FirstOrDefault(o => o.OrderID == orderId);
+                return View(order);
+            }
+            else
+            {
+                return View(new Order());
+            }
+        }
+
+        [HttpPost]
+        public RedirectToActionResult Remove(int id)
+        {
+            Order order = _orderRepository.GetOrders().FirstOrDefault(o => o.OrderID == id);
+            if (order != null)
+            {
+                _orderRepository.RemoveOrder(order);
+            }
+            return RedirectToAction("Order", "Admin");
+        }
+
+        [HttpPost]
+        public RedirectToActionResult Edit(Order order, int orderId)
+        {
+            _orderRepository.UpdateOrder(order, orderId);
+
+            return RedirectToAction("Order", "Admin");
+        }
+
+        [HttpPost]
+        public RedirectToActionResult Create(Order order)
+        {
+            if (order.OrderID == 0)
+            {
+                order.Lines = _sessionCart.GetItem.ToArray();
+                _orderRepository.CreateOrder(order);
+            }
+
+            return RedirectToAction("Order", "Admin");
+        }
+
+
+        #region Method for User
+
         [HttpPost]
         public IActionResult AddOrder(Order order)
         {
             if (order.OrderID == 0)
             {
                 order.Lines = _sessionCart.GetItem.ToArray();
-                _orderRepository.AddOrder(order);
+                _orderRepository.CreateOrder(order);
                 TempData.Add("Message", $"Your order added in a list orders {order.Name}");
             }
             
-            return RedirectToAction(nameof(ClearCart));
+            return RedirectToAction("ClearCart", "Cart");
         }
 
-
-        public RedirectToActionResult ClearCart()
-        {
-            _sessionCart.Clear();
-            return RedirectToAction("List", "Product");
-        }
+        #endregion
     }
 }

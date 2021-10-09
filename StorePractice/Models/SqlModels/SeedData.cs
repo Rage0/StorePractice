@@ -29,19 +29,7 @@ namespace StorePractice.Models.SqlModels
                     new Category { Name = "Accessory" },
                     new Category { Name = "Discount" }
                 );
-
-                for (int i = 0; i < 100; i++)
-                {
-                    repository.Categories.Add(
-                        new Category()
-                        {
-                            Name = $"Category {i}"
-                        }
-                        );
-                    repository.SaveChanges();
-                }
-
-                
+                repository.SaveChanges();
             }
 
             var categories = repository.Categories.ToList();
@@ -148,10 +136,8 @@ namespace StorePractice.Models.SqlModels
                     repository.SaveChanges();
                 }
                 
-            }
+            }  
 
-            
-                
         }
     }
 }

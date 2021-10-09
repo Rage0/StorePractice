@@ -39,3 +39,9 @@
 {
     pointer-events: none;
 }
+
+.button-content {
+    text-align: center;
+    padding: 10px;
+    
+}

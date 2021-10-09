@@ -1,0 +1,74 @@
+﻿@model PageAndObjectDBViewModel
+
+@{
+    ViewBag.Title = "Admin order";
+    ViewBag.NamePanel = "Admin Panel";
+}
+
+@if (Model.Orders.Any())
+{
+    <div style="padding: 10px;">
+        @await Html.PartialAsync("PartialHtml/Page", Model)
+    </div>
+
+    <div class="button-content">
+        <a class="button-for-create" asp-action="EditOrCreate" asp-controller="Order" asp-route-orderId="0">Create</a>
+    </div>
+
+    <div style="height: 1000px">
+        <div style="max-height: 500px; min-height: 500px; min-width: 200px; overflow: auto;">
+
+            <table style="margin-right: auto;
+    margin-left: auto;
+    border-collapse: collapse;
+    font-size: 18px;">
+                <tr>
+                    <th>Name</th>
+                    <th>Country</th>
+                    <th>City</th>
+                    <th>Lines</th>
+                    <th>Id</th>
+                </tr>
+                @foreach (Order order in Model.Orders)
+                {
+                    <tr>
+                        <td>@order.Name</td>
+                        <td>@order.Country</td>
+                        <td>@order.City</td>
+                        <td>
+                            @foreach (CartLine cartLine in order.Lines)
+                            {
+                                <h5>@cartLine.Product.Name</h5>
+                            }
+                        </td>
+                        <td>@order.OrderID</td>
+                        <td>
+                            @using (Html.BeginForm("Remove", "Order", FormMethod.Post))
+                            {
+                                <form method="post">
+                                    <input type="hidden" name="id" value="@order.OrderID" />
+                                    <button type="submit">Remove</button>
+                                </form>
+                            }
+                        </td>
+                        <td>
+                            <a asp-action="EditOrCreate" asp-controller="Order" asp-route-orderId="@order.OrderID">Edit</a>
+                        </td>
+                        <td>
+                            @*   To do: Make Approve to Order *@
+                        </td>
+                    </tr>
+                }
+            </table>
+
+        </div>
+    </div>
+}
+else
+{
+    <div class="button-content">
+        <a class="button-for-create" asp-action="EditOrCreate" asp-controller="Order" asp-route-orderId="0">Create</a>
+    </div>
+    <h2 style="text-align:center">Order is not exist</h2>
+
+}

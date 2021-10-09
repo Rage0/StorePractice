@@ -1,6 +1,10 @@
 ﻿@model Category
 
-@using (Html.BeginForm("AddToFilterCategories", "Category", FormMethod.Post ))
+@{ 
+    var route = ViewBag.ProductId == 0 ? "..." : "AddToFilterCategories";
+}
+
+@using (Html.BeginForm(route, "Category", FormMethod.Post ))
 {
 <form method="post">
     <input type="hidden" name="categoryId" value="@Model.CategoryID" />

@@ -31,6 +31,11 @@ namespace StorePractice.Controllers
 
             return RedirectToAction("CartProduct");
         }
-        
+
+        public RedirectToActionResult ClearCart()
+        {
+            _sessionCart.Clear();
+            return RedirectToAction("List", "Product");
+        }
     }
 }

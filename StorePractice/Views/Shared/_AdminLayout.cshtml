@@ -1,0 +1,30 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="~/css/bundle.css" rel="stylesheet" />
+    <link asp-href-include="/lib/font-awesome/css/*.css" rel="stylesheet" />
+</head>
+<body>
+    <div style="box-shadow: 0px 0px 10px #808080;">
+        <div class="flex-display" style="border-radius: 0 0 0 0; box-shadow: none; background: #9b6dff">
+            <a asp-action="List" asp-controller="Product"><i class="fa fa-home text-logo" style="font-size: 22px;"></i></a>
+            <div style="margin-right: auto; margin-left: auto; pointer-events: none"
+               class="text-logo decorate-none">@ViewBag.NamePanel</div>
+        </div>
+        <div class="flex-display" style="padding: 5px; border-radius: 0 0 0 0; box-shadow: none;">
+            <table style="margin-left: auto; margin-right: auto;">
+                <tr>
+                    <td style="border: none"><a class="text-logo decorate-none" asp-action="Product" asp-controller="Admin">Product</a></td>
+                    <td style="border: none"><a class="text-logo decorate-none" asp-action="Category" asp-controller="Admin">Category</a></td>
+                    <td style="border: none"><a class="text-logo decorate-none" asp-action="Order" asp-controller="Admin">Order</a></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div>
+        @RenderBody()
+    </div>
+</body>
+</html>

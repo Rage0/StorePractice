@@ -1,0 +1,48 @@
+﻿@model Product
+
+@{
+    Layout = "_AdminLayout";
+    ViewBag.Title = "EditOrCreate";
+    ViewBag.NamePanel = "Create/Update product";
+
+    string route = Model.ProductID != 0 ? "Edit" : "Create";
+} 
+
+@using (Html.BeginForm(route, "Product", FormMethod.Post))
+{
+<form method="post">
+    <table>
+        <tr>
+            <td>
+                <label asp-for="Name"></label>
+                <input asp-for="Name" value="@Model.Name" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label asp-for="Price"></label>
+                <input asp-for="Price" value="@Model.Price" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label asp-for="Discription"></label>
+                <textarea style="width: 500px; height: 200px" asp-for="Discription" value="@Model.Discription"></textarea>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label asp-for="Quantity"></label>
+                <input asp-for="Quantity" value="@Model.Quantity" />
+            </td>
+        </tr>
+
+    </table>
+    @if (route == "Edit")
+    {
+        <input type="hidden" name="productId" value="@Model.ProductID" />
+    }
+    <button type="submit">@route</button>
+</form>
+}
+

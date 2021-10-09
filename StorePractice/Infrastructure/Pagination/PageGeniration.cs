@@ -43,11 +43,6 @@ namespace StorePractice.Infrastructure
                 new ItemForTagOfPage { Name = "Next >>" , NameTag = "a", Url = PageUrl },
                 new ItemForTagOfPage { Name = "<< Back" , NameTag = "a", Url = PageUrl },
                 new ItemForTagOfPage { NameTag = "a", Url = PageUrl },
-                new ItemForTagOfPage { Name = "1" ,NameTag = "a", Url = PageUrl, Page = 1},
-                new ItemForTagOfPage { Name = PageModel.TotalPages.ToString(),
-                    NameTag = "a",
-                    Url = PageUrl,
-                    Page = PageModel.TotalPages},
             };
 
             if (PageCurrent > 1)
@@ -58,7 +53,7 @@ namespace StorePractice.Infrastructure
             }
             for (int page = 1; page <= PageModel.TotalPages; page++)
             {
-                if (PageCurrent >= 7 && PageCurrent <= PageModel.TotalPages - 3)
+                if (PageCurrent >= 4 && PageCurrent <= PageModel.TotalPages - 3)
                 {
                     for (int newPage = PageCurrent - 3; newPage <= PageCurrent + 3; newPage++)
                     {
@@ -73,16 +68,34 @@ namespace StorePractice.Infrastructure
                 }
                 else
                 {
-                    if (page > 7)
+                    if (page > 4 )
                     {
-                        result.InnerHtml.Append(" ... ");
-                        break;
-                    }
-                    listItem[2].Name = page.ToString();
-                    listItem[2].Page = page;
+                        if (page >= PageModel.TotalPages - 3)
+                        {
+                            listItem[2].Name = page.ToString();
+                            listItem[2].Page = page;
 
-                    TagBuilder tag = CreateTagWithAttributesHref(listItem[2]);
-                    result.InnerHtml.AppendHtml(tag);
+                            TagBuilder lastTags = CreateTagWithAttributesHref(listItem[2]);
+                            result.InnerHtml.AppendHtml(lastTags);
+                        }
+                        else
+                        {
+                            continue;
+                        } 
+                    }
+                    else
+                    {
+                        listItem[2].Name = page.ToString();
+                        listItem[2].Page = page;
+
+                        TagBuilder tag = CreateTagWithAttributesHref(listItem[2]);
+                        result.InnerHtml.AppendHtml(tag);
+
+                        if (page == 4)
+                        {
+                            result.InnerHtml.Append(" ... ");
+                        }
+                    }
                 }
             }
             if (PageCurrent != PageModel.TotalPages)

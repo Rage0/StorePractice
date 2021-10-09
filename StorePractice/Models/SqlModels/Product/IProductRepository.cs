@@ -9,6 +9,8 @@ namespace StorePractice.Models.SqlModels
     public interface IProductRepository
     {
         public IQueryable<Product> GetProducts();
-        public void AddProduct(Product product);
+        public void CreateProduct(Product product);
+        public void RemoveProduct(Product product);
+        public void UpdateProduct(Product product, int id);
     }
 }

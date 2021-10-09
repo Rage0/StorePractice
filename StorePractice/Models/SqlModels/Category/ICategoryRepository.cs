@@ -8,6 +8,8 @@ namespace StorePractice.Models.SqlModels
     public interface ICategoryRepository
     {
         public IQueryable<Category> GetCategories();
-        public void SaveCategory(Category category);
+        public void CreateCategory(Category category);
+        public void RemoveCategory(Category category);
+        public void UpdateCategory(Category category, int id);
     }
 }

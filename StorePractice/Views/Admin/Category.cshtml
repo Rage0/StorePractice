@@ -1,0 +1,57 @@
+﻿@model PageAndObjectDBViewModel
+
+@{
+    ViewBag.Title = "Admin Category";
+    ViewBag.NamePanel = "Admin Panel";
+}
+
+@if (Model.Categories.Any())
+{
+    <div style="padding: 10px;">
+        @await Html.PartialAsync("PartialHtml/Page", Model)
+    </div>
+
+    <div class="button-content">
+        <a class="button-for-create" asp-action="EditOrCreate" asp-controller="Category" asp-route-categoryId="0">Create</a>
+    </div>
+    <div style="height: 1000px">
+        <div style="max-height: 500px; min-height: 500px; overflow: auto;">
+            <table style="margin-right: auto;
+        margin-left: auto;
+        border-collapse: collapse;
+        font-size: 18px;">
+                <tr>
+                    <th>Name</th>
+                    <th>Id</th>
+                </tr>
+                @foreach (Category category in Model.Categories)
+                {
+                    <tr>
+                        <td>@category.Name</td>
+                        <td>@category.CategoryID</td>
+                        <td>
+                            @using (Html.BeginForm("Remove", "Category", FormMethod.Post))
+                            {
+                                <form method="post">
+                                    <input type="hidden" name="id" value="@category.CategoryID" />
+                                    <button type="submit">Remove</button>
+                                </form>
+                            }
+                        </td>
+                        <td>
+                            <a asp-action="EditOrCreate" asp-controller="Category" asp-route-categoryId="@category.CategoryID">Edit</a>
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+    </div>
+}
+else
+{
+    <div class="button-content">
+        <a class="button-for-create" asp-action="EditOrCreate" asp-controller="Category" asp-route-orderId="0">Create</a>
+    </div>
+    
+    <h3 style="text-align:center">Category is not exist</h3>
+} 

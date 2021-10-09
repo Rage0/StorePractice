@@ -1,4 +1,4 @@
-﻿@model PageAndProductViewModel
+﻿@model PageAndObjectDBViewModel
 
 @{
     ViewBag.Title = "List";
@@ -6,7 +6,7 @@
 
 <div class="filter-content">
     <a asp-controller="Category" asp-action="Categories" class="decorate-none">
-        <i class="fa fa-filter filter"></i>:
+        Filter <i class="fa fa-filter filter"></i>:
     </a>
     @foreach (Category category in Model.SessionCategories.Categories)
     {
@@ -29,19 +29,9 @@
 <div class="border-limit">
     @if (Model.Products.Count() == 0 || Model.CurrentPage <= 0)
     {
-        @if (Model.Products.Count() < Model.CurrentPage)
-         {
-            <div style="text-align: center">
-                <h2>Page is not exist</h2>
-            </div>
-         }
-         else
-         {
-            <div style="text-align: center">
-                <h2>Product not found</h2>
-            </div>
-         }
-        
+        <div style="text-align: center">
+            <h2>Product not found</h2>
+        </div>      
     }
     else
     {
@@ -53,15 +43,11 @@
         </div>
     }
 </div>
+
 <div style="padding: 10px;" >
-    <div class="pagination-style"
-         page-model="@Model.Pages"
-             page-url="List"
-             page-css="pagination decorate-none"
-             page-current="@Model.CurrentPage"
-             page-current-css="absolute-none">
-    </div>
+    @await Html.PartialAsync("PartialHtml/Page", Model)
 </div>
+
 <div style="width: auto;
       background: #a07fe8;
       box-shadow: inset 0px 0px 100px #6038b9;

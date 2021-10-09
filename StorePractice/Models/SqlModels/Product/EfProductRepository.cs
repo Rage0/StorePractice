@@ -14,15 +14,40 @@ namespace StorePractice.Models.SqlModels
             _repository = repo;
         }
 
-        public void AddProduct(Product product)
+        public void CreateProduct(Product product)
         {
-            _repository.Attach(product.Categories);
+            if (product.Categories == null)
+            {
+                product.Categories = new List<Category>();
+            }
+            else
+            {
+                _repository.Attach(product.Categories);
+            }
             _repository.Products.Add(product);
+            _repository.SaveChanges();
+        }
+
+        public void UpdateProduct(Product product, int id)
+        {
+            Product productForEdit = _repository.Products.Find(id);
+
+            productForEdit.Name = product.Name;
+            productForEdit.Price = product.Price;
+            productForEdit.Quantity = product.Quantity;
+            productForEdit.Discription = product.Discription;
+            productForEdit.Discount = product.Discount;
             _repository.SaveChanges();
         }
 
         public IQueryable<Product> GetProducts() => _repository.Products
             .Include(o => o.Categories);
+
+        public void RemoveProduct(Product product)
+        {
+            _repository.Products.Remove(product);
+            _repository.SaveChanges();
+        }
     }
 
 }

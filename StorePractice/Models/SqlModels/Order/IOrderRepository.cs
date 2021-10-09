@@ -9,6 +9,8 @@ namespace StorePractice.Models.SqlModels
     public interface IOrderRepository
     {
         public IQueryable<Order> GetOrders();
-        public void AddOrder(Order order);
+        public void CreateOrder(Order order);
+        public void RemoveOrder(Order order);
+        public void UpdateOrder(Order order, int orderId);
     }
 }

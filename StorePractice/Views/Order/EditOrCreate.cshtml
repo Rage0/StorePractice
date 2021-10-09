@@ -1,0 +1,64 @@
+﻿@model Order
+
+@{
+    Layout = "_AdminLayout";
+    ViewBag.Title = "EditOrCreate";
+    ViewBag.NamePanel = "Create/Update order";
+
+    string route = Model.OrderID != 0 ? "Edit" : "Create";
+}
+
+@using (Html.BeginForm(route, "Order", FormMethod.Post))
+{
+    <form method="post">
+        <table>
+            <tr>
+                <td>
+                    <label asp-for="Name"></label>
+                    <input asp-for="Name" value="@Model.Name" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label asp-for="Line1"></label>
+                    <input asp-for="Line1" value="@Model.Line1" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label asp-for="Line2"></label>
+                    <input asp-for="Line2" value="@Model.Line2" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label asp-for="Line3"></label>
+                    <input asp-for="Line3" value="@Model.Line3" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label asp-for="City"></label>
+                    <input asp-for="City" value="@Model.City" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label asp-for="Country"></label>
+                    <input asp-for="Country" value="@Model.Country" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label asp-for="Zip"></label>
+                    <input asp-for="Zip" value="@Model.Zip" />
+                </td>
+            </tr>
+        </table>
+        @if (route == "Edit")
+        {
+            <input type="hidden" name="orderId" value="@Model.OrderID" />
+        }
+        <button type="submit">@route</button>
+    </form>
+}

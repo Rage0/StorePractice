@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using StorePractice.Models.SqlModels;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations.Schema;
+using Newtonsoft.Json;
+using System.Runtime.Serialization;
 
 namespace StorePractice.Models
 {
@@ -16,7 +18,11 @@ namespace StorePractice.Models
         public int Quantity { get; set; } = 1;
         public string Name { get; set; }
         public string Discription { get; set; }
+
+        [JsonIgnore]
+        [IgnoreDataMember]
         public List<Category> Categories { get; set; }
+
         public bool Discount { get; set; }
 
     }

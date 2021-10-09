@@ -21,7 +21,7 @@ namespace StorePractice.Controllers
             _sessionCategories = line;
         }
 
-        public IActionResult Categories(string charFilter = "A")
+        public ViewResult Categories(string charFilter = "A")
         {
             return View(new CategoryFilterViewModel
             {
@@ -32,6 +32,50 @@ namespace StorePractice.Controllers
             });
         }
 
+        public ViewResult EditOrCreate(int categoryId)
+        {
+            if (categoryId != 0)
+            {
+                Category category = _categoryRepository.GetCategories().FirstOrDefault(c => c.CategoryID == categoryId);
+                return View(category);
+            }
+            else
+            {
+                return View(new Category());
+            }
+        }
+
+        [HttpPost]
+        public RedirectToActionResult Remove(int id)
+        {
+            Category category = _categoryRepository.GetCategories()
+                .FirstOrDefault(c => c.CategoryID == id);
+
+            if (category != null)
+            {
+                _categoryRepository.RemoveCategory(category);
+            }
+
+            return RedirectToAction("Category", "Admin");
+        }
+
+        [HttpPost]
+        public RedirectToActionResult Edit(Category category, int categoryId)
+        {
+            _categoryRepository.UpdateCategory(category, categoryId);
+
+            return RedirectToAction("Category", "Admin");
+        }
+
+        [HttpPost]
+        public RedirectToActionResult Create(Category category)
+        {
+            _categoryRepository.CreateCategory(category);
+
+            return RedirectToAction("Category", "Admin");
+        }
+
+        #region Filter
         [HttpPost]
         public RedirectToActionResult AddToFilterCategories(int categoryId)
         {
@@ -77,4 +121,5 @@ namespace StorePractice.Controllers
             return _charCategories;
         }
     }
+    #endregion
 }

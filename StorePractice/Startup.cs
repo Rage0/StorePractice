@@ -69,6 +69,13 @@ namespace StorePractice
 
                 endpoints.MapControllerRoute
                 (
+                    name: "AdminPage",
+                    pattern: "{controller=Admin}/{action=Product}/Page/{pageNow}",
+                    defaults: new { Controller = "Admin", action = "Product" }
+                );
+
+                endpoints.MapControllerRoute
+                (
                     name: "CategoriesChar",
                     pattern: "{action=Categories}/Char/{charFilter}",
                     defaults: new { Controller = "Category", action = "Categories" }

@@ -1,0 +1,28 @@
+﻿@model Category
+
+@{
+    Layout = "_AdminLayout";
+    ViewBag.Title = "EditOrCreate";
+    ViewBag.NamePanel = "Create/Update category";
+
+    string route = Model.CategoryID != 0 ? "Edit" : "Create";
+} 
+
+@using (Html.BeginForm(route, "Category", FormMethod.Post))
+{
+<form method="post">
+    <table>
+        <tr>
+            <td>
+                <label asp-for="Name"></label>
+                <input asp-for="Name" value="@Model.Name" />
+            </td>
+        </tr>
+    </table>
+    @if (route == "Edit")
+    {
+        <input type="hidden" name="categoryId" value="@Model.CategoryID" />
+    }
+    <button type="submit">@route</button>
+</form>
+}

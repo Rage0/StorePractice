@@ -1,0 +1,67 @@
+﻿@model PageAndObjectDBViewModel
+
+@{
+    ViewBag.Title = "Admin product";
+    ViewBag.NamePanel = "Admin Panel";
+}
+
+@if (Model.Products.Any())
+{
+    <div style="padding: 10px;">
+        @await Html.PartialAsync("PartialHtml/Page", Model)
+    </div>
+
+    <div class="button-content">
+        <a class="button-for-create" asp-action="EditOrCreate" asp-controller="Product" asp-route-productId="0">Create</a>
+    </div>
+    <div style="height: 1000px">
+        <div style="max-height: 500px; min-height: 500px; overflow: auto;">
+            <table style="margin-right: auto;
+    margin-left: auto;
+    border-collapse: collapse;
+    font-size: 18px;">
+                <tr>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Categories</th>
+                    <th>Id</th>
+
+                </tr>
+                @foreach (Product product in Model.Products)
+                {
+                    <tr>
+                        <td>@product.Name</td>
+                        <td>@product.Price</td>
+                        <td>
+                            @foreach (Category category in product.Categories)
+                            {
+                                <h5>@category.Name</h5>
+                            }
+                        </td>
+                        <td>@product.ProductID</td>
+                        <td>
+                            @using (Html.BeginForm("Remove", "Product", FormMethod.Post))
+                            {
+                                <form method="post" style="background: #d83333">
+                                    <input type="hidden" name="id" value="@product.ProductID" />
+                                    <button type="submit">Remove</button>
+                                </form>
+                            }
+                        </td>
+                        <td>
+                            <a asp-action="EditOrCreate" asp-controller="Product" asp-route-productId="@product.ProductID">Edit</a>
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+    </div>
+}
+else
+{
+    <div class="button-content">
+        <a class="button-for-create" asp-action="EditOrCreate" asp-controller="Product" asp-route-orderId="0">Create</a>
+    </div>
+    
+    <h2 style="text-align:center">Product is not exist</h2>
+}

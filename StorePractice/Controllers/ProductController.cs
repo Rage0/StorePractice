@@ -24,7 +24,7 @@ namespace StorePractice.Controllers
 
         public ViewResult List(int pageNow = 1)
         {
-            return View(new PageAndProductViewModel
+            return View(new PageAndObjectDBViewModel
             {
                 Products = _productRepository.GetProducts()
                 .ToList()
@@ -45,7 +45,9 @@ namespace StorePractice.Controllers
 
                 SessionCategories = _sessionCategories,
 
-                CurrentPage = pageNow
+                CurrentPage = pageNow,
+
+                ActionUrl = "List"
 
             });
         }
@@ -55,6 +57,52 @@ namespace StorePractice.Controllers
             return View(
                 _productRepository.GetProducts().FirstOrDefault(p => p.ProductID == productId));
         }
+
+        public ViewResult EditOrCreate(int productId)
+        {
+            if (productId != 0)
+            {
+                Product product = _productRepository.GetProducts().FirstOrDefault(p => p.ProductID == productId);
+                return View(product);
+            }
+            else
+            {
+                return View(new Product());
+            }
+        }
+
+
+        #region CRUD
+        [HttpPost]
+        public RedirectToActionResult Remove(int id)
+        {
+            Product product = _productRepository.GetProducts().FirstOrDefault(p => p.ProductID == id);
+
+            if (product != null)
+            {
+                _productRepository.RemoveProduct(product);
+            }
+            
+            return RedirectToAction("Product", "Admin");
+        }
+
+        [HttpPost]
+        public RedirectToActionResult Edit(Product product, int productId)
+        {
+            _productRepository.UpdateProduct(product, productId);
+
+            return RedirectToAction("Product", "Admin");
+        }
+
+        [HttpPost]
+        public RedirectToActionResult Create(Product product)
+        {
+            _productRepository.CreateProduct(product);
+
+            return RedirectToAction("Product", "Admin");
+        }
+        #endregion
+
 
         private bool SortCollectionCategory(Product product)
         {
