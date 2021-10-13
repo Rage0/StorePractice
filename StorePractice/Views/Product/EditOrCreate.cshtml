@@ -2,7 +2,7 @@
 
 @{
     Layout = "_AdminLayout";
-    ViewBag.Title = "EditOrCreate";
+    ViewBag.Title = TempData["RequestProduct"] = "EditOrCreate";
     ViewBag.NamePanel = "Create/Update product";
 
     string route = Model.ProductID != 0 ? "Edit" : "Create";
@@ -10,7 +10,6 @@
 
 @using (Html.BeginForm(route, "Product", FormMethod.Post))
 {
-<form method="post">
     <table>
         <tr>
             <td>
@@ -32,6 +31,37 @@
         </tr>
         <tr>
             <td>
+                <label asp-for="Categories"></label>
+                @if (Model.Categories != null)
+                {
+                    @foreach (Category category in Model.Categories)
+                    {
+                        <div style="display:flex;">
+                            <h4 class="filter" style="pointer-events:none">@category.Name</h4>
+                            @using (Html.BeginForm("DeleteCategoryToProduct", "Category", FormMethod.Post))
+                            {
+                                <input type="hidden" name="categoryId" value="@category.CategoryID" />
+                                <button class="filter filter-delete"
+                                        style="background: initial; border: initial"
+                                        type="submit">
+                                    <i class="fa fa-remove"></i>
+                                </button>
+                            }
+                        </div>
+                    }
+                }
+                @using (Html.BeginForm("AddProductToSession", "Product", FormMethod.Post))
+                {
+                    <input type="hidden" name="productId" value="0" />
+                    <button type="submit">
+                        Add Category
+                    </button>
+                }
+
+            </td>
+        </tr>
+        <tr>
+            <td>
                 <label asp-for="Quantity"></label>
                 <input asp-for="Quantity" value="@Model.Quantity" />
             </td>
@@ -43,6 +73,5 @@
         <input type="hidden" name="productId" value="@Model.ProductID" />
     }
     <button type="submit">@route</button>
-</form>
 }
 

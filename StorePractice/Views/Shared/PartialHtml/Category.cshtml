@@ -1,7 +1,7 @@
 ﻿@model Category
 
 @{ 
-    var route = ViewBag.ProductId == 0 ? "..." : "AddToFilterCategories";
+    var route = TempData["RequestProduct"].ToString() == "EditOrCreate" ? "AddCategoryToProduct" : "AddCategoryToFilter";
 }
 
 @using (Html.BeginForm(route, "Category", FormMethod.Post ))

@@ -14,11 +14,13 @@ namespace StorePractice.Controllers
         private ICategoryRepository _categoryRepository;
         private List<string> _charCategories = new List<string>();
         private LineCategories _sessionCategories;
+        private SessionProduct _sessionProduct;
 
-        public CategoryController(ICategoryRepository repo, LineCategories line)
+        public CategoryController(ICategoryRepository repo, LineCategories line, SessionProduct product)
         {
             _categoryRepository = repo;
             _sessionCategories = line;
+            _sessionProduct = product;
         }
 
         public ViewResult Categories(string charFilter = "A")
@@ -36,7 +38,7 @@ namespace StorePractice.Controllers
         {
             if (categoryId != 0)
             {
-                Category category = _categoryRepository.GetCategories().FirstOrDefault(c => c.CategoryID == categoryId);
+                Category category = CheckCategory(categoryId);
                 return View(category);
             }
             else
@@ -75,11 +77,24 @@ namespace StorePractice.Controllers
             return RedirectToAction("Category", "Admin");
         }
 
+        [HttpPost]
+        public RedirectToActionResult AddCategoryToProduct(int categoryId)
+        {
+            Category category = CheckCategory(categoryId);
+
+            if (category != null)
+            {
+                _sessionProduct.AddCategoryToProduct(category);
+            }
+
+            return RedirectToAction("EditOrCreate", "Product");
+        }
+
         #region Filter
         [HttpPost]
-        public RedirectToActionResult AddToFilterCategories(int categoryId)
+        public RedirectToActionResult AddCategoryToFilter(int categoryId)
         {
-            Category category = _categoryRepository.GetCategories().FirstOrDefault(c => c.CategoryID == categoryId);
+            Category category = CheckCategory(categoryId);
 
             if (category != null)
             {
@@ -92,7 +107,7 @@ namespace StorePractice.Controllers
         [HttpPost]
         public RedirectToActionResult DeleteCategoryToFilter(int categoryId)
         {
-            Category category = _categoryRepository.GetCategories().FirstOrDefault(c => c.CategoryID == categoryId);
+            Category category = CheckCategory(categoryId);
             
             _sessionCategories.RemoveCategory(category);
 
@@ -105,6 +120,13 @@ namespace StorePractice.Controllers
             _sessionCategories.Clear();
 
             return RedirectToAction("List", "Product");
+        }
+
+        #endregion
+
+        public Category CheckCategory(int categoryId)
+        {
+            return _categoryRepository.GetCategories().FirstOrDefault(c => c.CategoryID == categoryId);
         }
 
         private List<string> CharCategories()
@@ -121,5 +143,5 @@ namespace StorePractice.Controllers
             return _charCategories;
         }
     }
-    #endregion
+    
 }
