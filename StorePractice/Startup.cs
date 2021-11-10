@@ -27,18 +27,11 @@ namespace StorePractice
 
         public void ConfigureServices(IServiceCollection services)
         {
-            #region Transient
             services.AddTransient<IProductRepository, EfProductRepository>();
             services.AddTransient<ICategoryRepository, EfCategoryRepository>();
             services.AddTransient<IOrderRepository, EfOrderRepository>();
-            #endregion
-
-            #region Scoped
             services.AddScoped<Cart>(sp => SessionCart.GetCart(sp));
             services.AddScoped<LineCategories>(lc => SessionCategory.GetCategories(lc));
-            services.AddScoped<ProductInteraction>(sprod => SessionProduct.GetSessionProduct(sprod));
-            #endregion
-
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddMvc();
             services.AddMemoryCache();

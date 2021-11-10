@@ -14,14 +14,12 @@ namespace StorePractice.Controllers
     {
         private IProductRepository _productRepository;
         private LineCategories _sessionCategories;
-        private ProductInteraction _sessionProduct;
         public int PageSize { get; } = 12;
 
-        public ProductController(IProductRepository repo, LineCategories line, ProductInteraction product)
+        public ProductController(IProductRepository repo, LineCategories line)
         {
             _productRepository = repo;
             _sessionCategories = line;
-            _sessionProduct = product;
         }
 
         public ViewResult List(int pageNow = 1)
@@ -56,14 +54,15 @@ namespace StorePractice.Controllers
 
         public IActionResult ProductProfile(int productId)
         {
-            return View(CheckProduct(productId));
+            return View(
+                _productRepository.GetProducts().FirstOrDefault(p => p.ProductID == productId));
         }
 
         public ViewResult EditOrCreate(int productId)
         {
             if (productId != 0)
             {
-                Product product = CheckProduct(productId);
+                Product product = _productRepository.GetProducts().FirstOrDefault(p => p.ProductID == productId);
                 return View(product);
             }
             else
@@ -72,28 +71,12 @@ namespace StorePractice.Controllers
             }
         }
 
-        [HttpPost]
-        public RedirectToActionResult AddProductToSession(int productId)
-        {
-            if (productId != 0)
-            {
-                Product product = CheckProduct(productId);
-                _sessionProduct.AddProduct(product);
-            }
-            else
-            {
-                _sessionProduct.AddProduct(new Product());
-            }
-
-            return RedirectToAction("Categories", "Category");
-        }
-
 
         #region CRUD
         [HttpPost]
         public RedirectToActionResult Remove(int id)
         {
-            Product product = CheckProduct(id);
+            Product product = _productRepository.GetProducts().FirstOrDefault(p => p.ProductID == id);
 
             if (product != null)
             {
@@ -120,10 +103,6 @@ namespace StorePractice.Controllers
         }
         #endregion
 
-        public Product CheckProduct(int productId)
-        {
-            return _productRepository.GetProducts().FirstOrDefault(p => p.ProductID == productId);
-        }
 
         private bool SortCollectionCategory(Product product)
         {
