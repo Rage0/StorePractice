@@ -12,15 +12,12 @@
     {
         <div style="display:flex;">
             <h4 class="filter" style="pointer-events:none">@category.Name</h4>
-            @using (Html.BeginForm("DeleteCategoryToFilter", "Category", FormMethod.Post))
-             {
-                <form method="post">
+                <form method="post" asp-action="DeleteCategoryToFilter" asp-controller="Category">
                 <input type="hidden" name="categoryId" value="@category.CategoryID" />
                 <button class="filter filter-delete"
                         style="background: initial; border: initial"
                         type="submit"><i class="fa fa-remove"></i></button>
                 </form>
-             }
             
         </div>
     }

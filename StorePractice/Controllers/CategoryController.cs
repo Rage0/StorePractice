@@ -77,7 +77,7 @@ namespace StorePractice.Controllers
 
         #region Filter
         [HttpPost]
-        public RedirectToActionResult AddToFilterCategories(int categoryId)
+        public RedirectToActionResult AddCategoryToFilter(int categoryId)
         {
             Category category = _categoryRepository.GetCategories().FirstOrDefault(c => c.CategoryID == categoryId);
 

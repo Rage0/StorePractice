@@ -30,13 +30,10 @@
                         <td>@category.Name</td>
                         <td>@category.CategoryID</td>
                         <td>
-                            @using (Html.BeginForm("Remove", "Category", FormMethod.Post))
-                            {
-                                <form method="post">
-                                    <input type="hidden" name="id" value="@category.CategoryID" />
-                                    <button type="submit">Remove</button>
-                                </form>
-                            }
+                            <form method="post" asp-action="Remove" asp-controller="Category">
+                                  <input type="hidden" name="id" value="@category.CategoryID" />
+                                  <button type="submit">Remove</button>
+                            </form>
                         </td>
                         <td>
                             <a asp-action="EditOrCreate" asp-controller="Category" asp-route-categoryId="@category.CategoryID">Edit</a>

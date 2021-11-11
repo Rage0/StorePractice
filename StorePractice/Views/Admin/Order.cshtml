@@ -43,13 +43,10 @@
                         </td>
                         <td>@order.OrderID</td>
                         <td>
-                            @using (Html.BeginForm("Remove", "Order", FormMethod.Post))
-                            {
-                                <form method="post">
-                                    <input type="hidden" name="id" value="@order.OrderID" />
-                                    <button type="submit">Remove</button>
-                                </form>
-                            }
+                            <form method="post" asp-action="Remove" asp-controller="Order"> 
+                                  <input type="hidden" name="id" value="@order.OrderID" />
+                                  <button type="submit">Remove</button>
+                            </form>
                         </td>
                         <td>
                             <a asp-action="EditOrCreate" asp-controller="Order" asp-route-orderId="@order.OrderID">Edit</a>

@@ -40,13 +40,10 @@
                         </td>
                         <td>@product.ProductID</td>
                         <td>
-                            @using (Html.BeginForm("Remove", "Product", FormMethod.Post))
-                            {
-                                <form method="post" style="background: #d83333">
-                                    <input type="hidden" name="id" value="@product.ProductID" />
-                                    <button type="submit">Remove</button>
-                                </form>
-                            }
+                            <form method="post" asp-action="Remove" asp-controller="Product" style="background: #d83333">
+                                  <input type="hidden" name="id" value="@product.ProductID" />
+                                  <button type="submit">Remove</button>
+                            </form>
                         </td>
                         <td>
                             <a asp-action="EditOrCreate" asp-controller="Product" asp-route-productId="@product.ProductID">Edit</a>

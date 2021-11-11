@@ -8,9 +8,8 @@
     string route = Model.ProductID != 0 ? "Edit" : "Create";
 } 
 
-@using (Html.BeginForm(route, "Product", FormMethod.Post))
-{
-<form method="post">
+
+<form method="post" asp-action="@route" asp-controller="Product">
     <table>
         <tr>
             <td>
@@ -44,5 +43,5 @@
     }
     <button type="submit">@route</button>
 </form>
-}
+
 

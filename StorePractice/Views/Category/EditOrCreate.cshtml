@@ -8,9 +8,8 @@
     string route = Model.CategoryID != 0 ? "Edit" : "Create";
 } 
 
-@using (Html.BeginForm(route, "Category", FormMethod.Post))
-{
-<form method="post">
+
+<form method="post" asp-action="@route" asp-controller="Category">
     <table>
         <tr>
             <td>
@@ -25,4 +24,4 @@
     }
     <button type="submit">@route</button>
 </form>
-}
+
