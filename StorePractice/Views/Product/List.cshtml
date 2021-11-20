@@ -8,11 +8,13 @@
     <a asp-controller="Category" asp-action="Categories" class="decorate-none">
         Filter <i class="fa fa-filter filter"></i>:
     </a>
-    @foreach (Category category in Model.SessionCategories.Categories)
+    @if (Model.SessionCategories.Categories.Any())
     {
+      @foreach (Category category in Model.SessionCategories.Categories)
+      {
         <div style="display:flex;">
             <h4 class="filter" style="pointer-events:none">@category.Name</h4>
-                <form method="post" asp-action="DeleteCategoryToFilter" asp-controller="Category">
+                <form method="post" asp-action="DeleteCategoryToFilter" asp-controller="FilterCategory">
                 <input type="hidden" name="categoryId" value="@category.CategoryID" />
                 <button class="filter filter-delete"
                         style="background: initial; border: initial"
@@ -20,7 +22,9 @@
                 </form>
             
         </div>
+      } 
     }
+    
 </div>
 
 <div class="border-limit">

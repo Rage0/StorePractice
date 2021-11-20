@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace StorePractice.Models.SqlModels
 {
-    public class EfOrderRepository : IOrderRepository
+    public class EfOrderRepository
     {
         private ApplicationsContext _repository;
         public EfOrderRepository(ApplicationsContext repo)

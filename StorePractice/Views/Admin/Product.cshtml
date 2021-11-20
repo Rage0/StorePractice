@@ -40,7 +40,7 @@
                         </td>
                         <td>@product.ProductID</td>
                         <td>
-                            <form method="post" asp-action="Remove" asp-controller="Product" style="background: #d83333">
+                            <form method="post" asp-action="Remove" asp-controller="CrudProduct" style="background: #d83333">
                                   <input type="hidden" name="id" value="@product.ProductID" />
                                   <button type="submit">Remove</button>
                             </form>

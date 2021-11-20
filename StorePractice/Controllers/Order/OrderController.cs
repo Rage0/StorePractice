@@ -11,9 +11,9 @@ namespace StorePractice.Controllers
 {
     public class OrderController : Controller
     {
-        private IOrderRepository _orderRepository;
+        private EfOrderRepository _orderRepository;
         private Cart _sessionCart;
-        public OrderController(IOrderRepository repo, Cart cart)
+        public OrderController(EfOrderRepository repo, Cart cart)
         {
             _orderRepository = repo;
             _sessionCart = cart;
@@ -35,40 +35,6 @@ namespace StorePractice.Controllers
         }
 
         [HttpPost]
-        public RedirectToActionResult Remove(int id)
-        {
-            Order order = _orderRepository.GetOrders().FirstOrDefault(o => o.OrderID == id);
-            if (order != null)
-            {
-                _orderRepository.RemoveOrder(order);
-            }
-            return RedirectToAction("Order", "Admin");
-        }
-
-        [HttpPost]
-        public RedirectToActionResult Edit(Order order, int orderId)
-        {
-            _orderRepository.UpdateOrder(order, orderId);
-
-            return RedirectToAction("Order", "Admin");
-        }
-
-        [HttpPost]
-        public RedirectToActionResult Create(Order order)
-        {
-            if (order.OrderID == 0)
-            {
-                order.Lines = _sessionCart.GetItem.ToArray();
-                _orderRepository.CreateOrder(order);
-            }
-
-            return RedirectToAction("Order", "Admin");
-        }
-
-
-        #region Method for User
-
-        [HttpPost]
         public IActionResult AddOrder(Order order)
         {
             if (order.OrderID == 0)
@@ -81,6 +47,5 @@ namespace StorePractice.Controllers
             return RedirectToAction("ClearCart", "Cart");
         }
 
-        #endregion
     }
 }

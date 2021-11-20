@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace StorePractice.Models.SqlModels
 {
-    public class EfProductRepository : IProductRepository
+    public class EfProductRepository
     {
         private ApplicationsContext _repository;
         public EfProductRepository(ApplicationsContext repo)

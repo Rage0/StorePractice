@@ -12,15 +12,16 @@ namespace StorePractice.Controllers
 {
     public class ProductController : Controller
     {
-        private IProductRepository _productRepository;
+        private EfProductRepository _productRepository;
         private LineCategories _sessionCategories;
-        public int PageSize { get; } = 12;
+        public int PageSize { get; } = 24;
 
-        public ProductController(IProductRepository repo, LineCategories line)
+        public ProductController(EfProductRepository repo, LineCategories line)
         {
             _productRepository = repo;
             _sessionCategories = line;
         }
+        
 
         public ViewResult List(int pageNow = 1)
         {
@@ -58,6 +59,7 @@ namespace StorePractice.Controllers
                 _productRepository.GetProducts().FirstOrDefault(p => p.ProductID == productId));
         }
 
+
         public ViewResult EditOrCreate(int productId)
         {
             if (productId != 0)
@@ -70,39 +72,6 @@ namespace StorePractice.Controllers
                 return View(new Product());
             }
         }
-
-
-        #region CRUD
-        [HttpPost]
-        public RedirectToActionResult Remove(int id)
-        {
-            Product product = _productRepository.GetProducts().FirstOrDefault(p => p.ProductID == id);
-
-            if (product != null)
-            {
-                _productRepository.RemoveProduct(product);
-            }
-            
-            return RedirectToAction("Product", "Admin");
-        }
-
-        [HttpPost]
-        public RedirectToActionResult Edit(Product product, int productId)
-        {
-            _productRepository.UpdateProduct(product, productId);
-
-            return RedirectToAction("Product", "Admin");
-        }
-
-        [HttpPost]
-        public RedirectToActionResult Create(Product product)
-        {
-            _productRepository.CreateProduct(product);
-
-            return RedirectToAction("Product", "Admin");
-        }
-        #endregion
-
 
         private bool SortCollectionCategory(Product product)
         {

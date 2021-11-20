@@ -11,9 +11,9 @@ namespace StorePractice.Controllers
 {
     public class CartController : Controller
     {
-        private IProductRepository _productRepository;
+        private EfProductRepository _productRepository;
         private Cart _sessionCart;
-        public CartController(IProductRepository repo, Cart cartProduct)
+        public CartController(EfProductRepository repo, Cart cartProduct)
         {
             _productRepository = repo;
             _sessionCart = cartProduct;

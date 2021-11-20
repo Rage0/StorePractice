@@ -11,13 +11,13 @@ namespace StorePractice.Controllers
 {
     public class AdminController : Controller
     {
-        private IOrderRepository _orderRepository;
-        private IProductRepository _productRepository;
-        private ICategoryRepository _categoryRepository;
+        private EfOrderRepository _orderRepository;
+        private EfProductRepository _productRepository;
+        private EfCategoryRepository _categoryRepository;
 
         public int PageSize = 40;
 
-        public AdminController(IOrderRepository repo, IProductRepository productRepository, ICategoryRepository categoryRepository)
+        public AdminController(EfOrderRepository repo, EfProductRepository productRepository, EfCategoryRepository categoryRepository)
         {
             _orderRepository = repo;
             _productRepository = productRepository;
@@ -91,6 +91,8 @@ namespace StorePractice.Controllers
                 ActionUrl = "Category"
             });
         }
+
+
 
     }
 }

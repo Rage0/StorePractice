@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace StorePractice.Models.SqlModels
 {
-    public class EfCategoryRepository : ICategoryRepository
+    public class EfCategoryRepository
     {
         private ApplicationsContext _repository;
 

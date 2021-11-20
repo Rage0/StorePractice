@@ -43,7 +43,7 @@
                         </td>
                         <td>@order.OrderID</td>
                         <td>
-                            <form method="post" asp-action="Remove" asp-controller="Order"> 
+                            <form method="post" asp-action="Remove" asp-controller="CrudOrder"> 
                                   <input type="hidden" name="id" value="@order.OrderID" />
                                   <button type="submit">Remove</button>
                             </form>

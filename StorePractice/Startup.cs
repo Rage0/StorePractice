@@ -28,9 +28,9 @@ namespace StorePractice
         public void ConfigureServices(IServiceCollection services)
         {
             #region Transient
-            services.AddTransient<IProductRepository, EfProductRepository>();
-            services.AddTransient<ICategoryRepository, EfCategoryRepository>();
-            services.AddTransient<IOrderRepository, EfOrderRepository>();
+            services.AddTransient<EfProductRepository>();
+            services.AddTransient<EfCategoryRepository>();
+            services.AddTransient<EfOrderRepository>();
             #endregion
 
             #region Scoped

@@ -30,7 +30,7 @@
                         <td>@category.Name</td>
                         <td>@category.CategoryID</td>
                         <td>
-                            <form method="post" asp-action="Remove" asp-controller="Category">
+                            <form method="post" asp-action="Remove" asp-controller="CrudCategory">
                                   <input type="hidden" name="id" value="@category.CategoryID" />
                                   <button type="submit">Remove</button>
                             </form>
