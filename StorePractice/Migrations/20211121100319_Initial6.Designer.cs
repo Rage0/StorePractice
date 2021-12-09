@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using StorePractice.Models.SqlModels;
 
@@ -11,9 +12,10 @@ using StorePractice.Models.SqlModels;
 namespace StorePractice.Migrations
 {
     [DbContext(typeof(ApplicationsContext))]
-    partial class ApplicationsContextModelSnapshot : ModelSnapshot
+    [Migration("20211121100319_Initial6")]
+    partial class Initial6
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -74,9 +76,6 @@ namespace StorePractice.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("OwnerId")
-                        .HasColumnType("int");
-
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
@@ -115,9 +114,6 @@ namespace StorePractice.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("OwnerId")
-                        .HasColumnType("int");
-
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
@@ -147,9 +143,6 @@ namespace StorePractice.Migrations
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("OwnerId")
-                        .HasColumnType("int");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");

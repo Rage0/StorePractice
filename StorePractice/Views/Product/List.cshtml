@@ -45,9 +45,13 @@
     }
 </div>
 
-<div style="padding: 10px;" >
-    @await Html.PartialAsync("PartialHtml/Page", Model)
-</div>
+@if (Model.Products.Any())
+{
+    <div style="padding: 10px;" >
+        @await Html.PartialAsync("PartialHtml/Page", Model)
+    </div>
+}
+
 
 <div style="width: auto;
       background: #a07fe8;

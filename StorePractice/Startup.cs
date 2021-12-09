@@ -12,6 +12,7 @@ using StorePractice.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Identity;
 
 namespace StorePractice
 {
@@ -51,6 +52,22 @@ namespace StorePractice
                 (
                     Configuration.GetConnectionString("DefaultConnection")
                 ));
+            services.AddDbContext<AppIdentityContext>(options =>
+                options.UseSqlServer
+                (
+                    Configuration.GetConnectionString("IdentityConnection")
+                ));
+
+            services.AddIdentity<User, IdentityRole>(options =>
+            {
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireDigit = false;
+                options.Password.RequiredLength = 6;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireLowercase = false;
+            })
+                .AddEntityFrameworkStores<AppIdentityContext>()
+                .AddDefaultTokenProviders();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -65,6 +82,8 @@ namespace StorePractice
             app.UseStatusCodePages();
             app.UseStaticFiles();
             app.UseSession();
+            app.UseAuthentication();
+            app.UseAuthorization();
             
 
             app.UseEndpoints(endpoints =>

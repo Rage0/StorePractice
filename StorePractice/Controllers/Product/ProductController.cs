@@ -7,6 +7,7 @@ using StorePractice.Infrastructure;
 using StorePractice.Models.SqlModels;
 using StorePractice.Models;
 using StorePractice.Models.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 
 namespace StorePractice.Controllers
 {
@@ -14,15 +15,15 @@ namespace StorePractice.Controllers
     {
         private EfProductRepository _productRepository;
         private LineCategories _sessionCategories;
-        public int PageSize { get; } = 24;
+        public int PageSize { get; } = 20;
 
         public ProductController(EfProductRepository repo, LineCategories line)
         {
             _productRepository = repo;
             _sessionCategories = line;
         }
-        
 
+        [AllowAnonymous]
         public ViewResult List(int pageNow = 1)
         {
             return View(new PageAndObjectDBViewModel

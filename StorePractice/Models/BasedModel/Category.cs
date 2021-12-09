@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
@@ -14,6 +15,10 @@ namespace StorePractice.Models
 
         [JsonIgnore]
         [IgnoreDataMember]
+        [NotMapped]
         public List<Product> HasProducts { get; set; }
+
+        public User User { get; set; }
+        public string OwnerId { get; set; }
     }
 }

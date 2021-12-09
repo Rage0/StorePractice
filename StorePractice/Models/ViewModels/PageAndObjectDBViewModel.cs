@@ -11,6 +11,7 @@ namespace StorePractice.Models.ViewModels
         public IEnumerable<Product> Products { get; set; }
         public IEnumerable<Category> Categories { get; set; }
         public IEnumerable<Order> Orders { get; set; }
+        public IEnumerable<User> Users { get; set; }
         public Page Pages { get; set; }
         public LineCategories SessionCategories { get; set; }
         public int CurrentPage { get; set; }

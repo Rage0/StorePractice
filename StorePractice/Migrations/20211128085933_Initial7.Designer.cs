@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using StorePractice.Models.SqlModels;
 
@@ -11,9 +12,10 @@ using StorePractice.Models.SqlModels;
 namespace StorePractice.Migrations
 {
     [DbContext(typeof(ApplicationsContext))]
-    partial class ApplicationsContextModelSnapshot : ModelSnapshot
+    [Migration("20211128085933_Initial7")]
+    partial class Initial7
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

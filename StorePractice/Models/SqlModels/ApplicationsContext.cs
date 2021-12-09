@@ -21,14 +21,18 @@ namespace StorePractice.Models.SqlModels
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+
             modelBuilder.Entity<Product>().HasIndex(p => p.Name);
             modelBuilder.Entity<Product>().HasIndex(p => p.Price);
             modelBuilder.Entity<Product>().HasIndex(p => p.Discount);
+
             modelBuilder.Entity<Product>()
                 .HasMany(c => c.Categories)
                 .WithMany(p => p.HasProducts);
 
             modelBuilder.Entity<Category>().HasIndex(c => c.Name);
+
+            base.OnModelCreating(modelBuilder);
         }
     }
 }

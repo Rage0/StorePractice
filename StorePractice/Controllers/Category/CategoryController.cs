@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using StorePractice.Models;
 using StorePractice.Models.SqlModels;
 using StorePractice.Models.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 
 namespace StorePractice.Controllers
 {
@@ -19,6 +20,7 @@ namespace StorePractice.Controllers
             _categoryRepository = repo;
         }
 
+        [AllowAnonymous]
         public ViewResult Categories(string charFilter = "A")
         {
             return View(new CategoryFilterViewModel

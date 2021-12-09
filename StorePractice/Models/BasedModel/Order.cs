@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace StorePractice.Models
@@ -16,5 +18,8 @@ namespace StorePractice.Models
         public string Country { get; set; }
         public string City { get; set; }
         public string Zip { get; set; }
+
+        public User User { get; set; }
+        public string OwnerId { get; set; }
     }
 }

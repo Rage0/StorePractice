@@ -15,7 +15,8 @@ namespace StorePractice.Models.SqlModels
             _repository = repo;
         }
 
-        public IQueryable<Category> GetCategories() => _repository.Categories;
+        public IQueryable<Category> GetCategories() => _repository
+            .Categories;
 
         public void RemoveCategory(Category category)
         {

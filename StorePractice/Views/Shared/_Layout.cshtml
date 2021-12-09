@@ -21,7 +21,8 @@
                 <a asp-action="CartProduct" asp-controller="Cart" class="text-logo decorate-none" style="font-size: 22px;">
                     <i class="fa fa-sm fa-shopping-cart"></i>
                 </a>
-                <a href="#" class="text-logo decorate-none" style="font-size: 22px;">
+                <a asp-action="Profile" asp-controller="User" asp-route-name="@ViewContext.HttpContext.User.Identity.Name"
+                class="text-logo decorate-none" style="font-size: 22px;">
                     <i class="fa fa-sm fa-user "></i>
                 </a>
             </div>
@@ -33,7 +34,7 @@
             <h4>@TempData["Message"]</h4>
         </div>
     }
-    <div style="width:auto; height: 75%; overflow: auto;">
+    <div style="width:auto; height: 77%; overflow: auto;">
         @RenderBody()
     </div>
 </body>

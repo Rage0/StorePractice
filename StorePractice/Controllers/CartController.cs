@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 using StorePractice.Models;
 using StorePractice.Models.SqlModels;
 using StorePractice.Infrastructure;
+using Microsoft.AspNetCore.Authorization;
 
 namespace StorePractice.Controllers
 {
+    [Authorize]
     public class CartController : Controller
     {
         private EfProductRepository _productRepository;

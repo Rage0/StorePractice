@@ -1,0 +1,34 @@
+﻿@model UserViewModel
+
+@{
+    Layout = "_AdminLayout";
+    ViewBag.NamePanel = "Create user";
+    ViewBag.Title = "Create user";
+}
+
+<div asp-validation-summary="All"></div>
+<form asp-action="Create" asp-controller="CrudUser">
+    <table>
+        <tr>
+            <td>
+                <label asp-for="Name">Name</label>
+                <input asp-for="Name" value="@Model.Name"/>
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                <label asp-for="Email">Email</label>
+                <input asp-for="Email" value="@Model.Email"/>
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                <label asp-for="Password">Password</label>
+                <input asp-for="Password" value="@Model.Password"/>
+            </td>
+        </tr>
+    </table>
+    <button type="submit">Create</button>
+</form>

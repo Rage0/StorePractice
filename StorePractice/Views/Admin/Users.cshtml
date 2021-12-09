@@ -1,0 +1,57 @@
+﻿@model PageAndObjectDBViewModel
+
+@{
+    ViewBag.Title = "Admin User";
+    ViewBag.NamePanel = "Admin Panel";
+}
+
+
+@if (Model.Users.Any())
+{
+    <div style="padding: 10px;">
+        @await Html.PartialAsync("PartialHtml/Page", Model)
+    </div>
+
+    <div class="button-content">
+        <a class="button-for-create" asp-action="CreateUser" asp-controller="User">Create</a>
+    </div>
+    <div style="height: 1000px">
+        <div style="max-height: 700px; min-height: 500px; overflow: auto;">
+            <table style="margin-right: auto;
+                          margin-left: auto;
+                          border-collapse: collapse;
+                          font-size: 18px;">
+                   <tr>
+                       <th>Id</th>
+                       <th>Name</th>
+                       <th>Email</th>
+                   </tr>
+                   @foreach (User user in Model.Users)
+                   {
+                        <tr>
+                             <td>@user.Id</td>
+                             <td>@user.UserName</td>
+                             <td>@user.Email</td>
+                             <td>
+                                 <form asp-action="Delete" asp-controller="CrudUser">
+                                     <input type="hidden" name="id" value="@user.Id"/>
+                                     <button type="submit">Remove</button>
+                                 </form>
+                             </td>
+                             <td><a asp-action="EditUser" asp-controller="User">Edit</a></td>
+                        </tr> 
+                   }
+            </table>
+        </div>
+    </div>
+}
+else
+{
+    <div class="button-content">
+        <a class="button-for-create" asp-action="CreateUser" asp-controller="User">Create</a>
+    </div>
+    
+    <h2 style="text-align:center">User is not exist</h2>
+}
+
+

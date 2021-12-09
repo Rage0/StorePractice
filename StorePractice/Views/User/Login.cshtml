@@ -1,0 +1,27 @@
+﻿@model LoginViewModel
+
+<form asp-action="Login" asp-controller="User">
+    <table>
+        <tr>
+            <td>
+                <label asp-for="Email"></label>
+                <input asp-for="Email" value="@Model.Email"/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label asp-for="Password"></label>
+                <input asp-for="Password" value="@Model.Password"/>
+            </td>
+        </tr>
+    </table>
+    <table>
+        <tr>
+            <td>
+                <button type="submit">Sing in</button>
+                <button type="submit" asp-action="CreateUser" asp-controller="User">Register</button>
+            </td>
+        </tr>
+    </table>
+    
+</form>

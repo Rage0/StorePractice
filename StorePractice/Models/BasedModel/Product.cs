@@ -22,6 +22,9 @@ namespace StorePractice.Models
         [JsonIgnore]
         [IgnoreDataMember]
         public List<Category> Categories { get; set; }
+        
+        public User User { get; set; }
+        public string OwnerId { get; set; }
 
         public bool Discount { get; set; }
 

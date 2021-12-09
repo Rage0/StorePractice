@@ -1,0 +1,11 @@
+﻿@model User
+
+<table>
+    <tr>
+        <td>@Model.UserName</td>
+    </tr>
+    <tr>
+        <td>@Model.Email</td>
+    </tr>
+</table>
+<a asp-action="Logout" asp-controller="User">Logout</a>
