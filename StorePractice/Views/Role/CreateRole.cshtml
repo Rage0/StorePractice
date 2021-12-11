@@ -1,0 +1,19 @@
+﻿@model string
+
+@{
+    Layout = "_AdminLayout";
+    ViewBag.NamePanel = "Create role";
+    ViewBag.Title = "Create role";
+}
+
+<form asp-action="Create" asp-controller="CrudRole">
+    <table>
+        <tr>
+            <td>
+                <label >Name</label>
+                <input name="roleName"/>
+            </td>
+        </tr>
+    </table>
+    <button type="submit">Create</button>
+</form>

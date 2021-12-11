@@ -1,5 +1,56 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model PageAndObjectDBViewModel
+
 @{
+    ViewBag.Title = "Admin Role";
+    ViewBag.NamePanel = "Admin Panel";
+}
+
+
+@if (Model.Roles.Count() != 0)
+{
+    <div style="padding: 10px;">
+        @await Html.PartialAsync("PartialHtml/Page", Model)
+    </div>
+
+    <div class="button-content">
+        <a class="button-for-create" asp-action="CreateRole" asp-controller="Role">Create</a>
+    </div>
+    <div style="height: 1000px">
+        <div style="max-height: 700px; min-height: 500px; overflow: auto;">
+            <table style="margin-right: auto;
+                          margin-left: auto;
+                          border-collapse: collapse;
+                          font-size: 18px;">
+                   <tr>
+                       <th>Id</th>
+                       <th>Name</th>
+                   </tr>
+                   @foreach (IdentityRole role in Model.Roles)
+                   {
+                        <tr>
+                             <td>@role.Id</td>
+                             <td>@role.Name</td>
+                             <td>
+                                 <form asp-action="Delete" asp-controller="CrudRole">
+                                     <input type="hidden" name="id" value="@role.Id"/>
+                                     <button type="submit">Remove</button>
+                                 </form>
+                             </td>
+                             <td>
+                                 <a asp-action="EditRole" asp-controller="Role"
+                                 asp-route-roleId="@role.Id">Edit</a>
+                             </td>
+                        </tr> 
+                   }
+            </table>
+        </div>
+    </div>
+}
+else
+{
+    <div class="button-content">
+        <a class="button-for-create" asp-action="CreateRole" asp-controller="Role">Create</a>
+    </div>
+    
+    <h2 style="text-align:center">Role is not exist</h2>
 }

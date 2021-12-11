@@ -9,10 +9,19 @@ namespace StorePractice.Controllers
 {
     public class CrudUserController : Controller
     {
-        private readonly UserManager<User> _userManager;
-        public CrudUserController(UserManager<User> users)
+        private UserManager<User> _userManager;
+        private IUserValidator<User> _userValidator;
+        private IPasswordValidator<User> _passwordValidator;
+        private IPasswordHasher<User> _passwordHasher;
+        public CrudUserController(UserManager<User> users,
+            IUserValidator<User> userValidator,
+            IPasswordValidator<User> passwordValidator,
+            IPasswordHasher<User> passwordHasher)
         {
             _userManager = users;
+            _userValidator = userValidator;
+            _passwordValidator = passwordValidator;
+            _passwordHasher = passwordHasher;
         }
 
         [HttpPost]
@@ -46,21 +55,47 @@ namespace StorePractice.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(string id, UserViewModel userModel)
         {
-            if (ModelState.IsValid)
+            User user = await _userManager.FindByIdAsync(id);
+            if (user != null)
             {
-                User user = await _userManager.FindByIdAsync(id);
-                if (user != null)
+                user.UserName = userModel.Name;
+                user.Email = userModel.Email;
+
+                IdentityResult validUser = await _userValidator.ValidateAsync(_userManager, user);
+                if (!validUser.Succeeded)
                 {
-                    user.UserName = userModel.Name;
-                    user.Email = userModel.Email;
-                    user.PasswordHash = userModel.Password;
+                    return RedirectToAction("EditUser", "User", new { userId = userModel.Id });
+                }
+
+                IdentityResult validPass = null;
+                if (!string.IsNullOrEmpty(userModel.Password))
+                {
+                    validPass = await _passwordValidator.ValidateAsync(_userManager, user, userModel.Password);
+
+                    if (validPass.Succeeded)
+                    {
+                        user.PasswordHash = _passwordHasher.HashPassword(user, userModel.Password);
+                    }
+                    else
+                    {
+                        RedirectToAction("EditUser", "User", new { userId = userModel.Id });
+                    }
+                }
+
+                IdentityResult result = await _userManager.UpdateAsync(user);
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("Users", "Admin");
                 }
                 else
                 {
-                    throw new NullReferenceException();
+                    return RedirectToAction("EditUser", "User", new { userId = userModel.Id });
                 }
             }
-            return RedirectToAction("Users", "Admin");
+            else
+            {
+                throw new NullReferenceException();
+            }
         }
 
         [HttpPost]

@@ -1,1 +1,33 @@
-﻿
+﻿@model UserViewModel
+
+@{
+    Layout = "_AdminLayout";
+    ViewBag.Title = "Edit User";
+    ViewBag.NamePanel = "Edit User";
+}
+
+<div asp-validation-summary="All" style="color: red"></div>
+<form asp-action="Edit" asp-controller="CrudUser">
+    <table>
+        <tr>
+            <td>
+                <label asp-for="Name"></label>
+                <input asp-for="Name" value="@Model.Name"/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label asp-for="Email"></label>
+                <input asp-for="Email" value="@Model.Email"/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label asp-for="Password"></label>
+                <input asp-for="Password"/>
+            </td>
+        </tr>
+    </table>
+    <input type="hidden" name="id" value="@Model.Id"/>
+    <button type="submit">Edit</button>
+</form>

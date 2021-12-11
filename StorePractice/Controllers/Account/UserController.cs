@@ -20,7 +20,23 @@ namespace StorePractice.Controllers
 
         [AllowAnonymous]
         public ViewResult CreateUser() => View(new UserViewModel());
-        public ViewResult EditUser() => View();
+        public async Task<IActionResult> EditUser(string userId)
+        {
+           User user = await _userManager.FindByIdAsync(userId);
+            if (user != null)
+            {
+                UserViewModel userModel = new UserViewModel()
+                {
+                    Name = user.UserName,
+                    Email = user.Email,
+                    Id = user.Id,
+                };
+                
+                return View(userModel);
+            }
+
+            return RedirectToAction("Users", "Admin");
+        }
 
         public async Task<IActionResult> Profile(string name)
         {

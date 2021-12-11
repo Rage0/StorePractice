@@ -19,20 +19,23 @@ namespace StorePractice.Controllers
         private EfProductRepository _productRepository;
         private EfCategoryRepository _categoryRepository;
         private UserManager<User> _userManager;
+        private RoleManager<IdentityRole> _roleManager;
 
         public int PageSize = 40;
 
         public AdminController(
-            EfOrderRepository repo,
+            EfOrderRepository orderRepository,
             EfProductRepository productRepository,
             EfCategoryRepository categoryRepository,
-            UserManager<User> userRepository
+            UserManager<User> userRepository,
+            RoleManager<IdentityRole> roleManager
             )
         {
-            _orderRepository = repo;
+            _orderRepository = orderRepository;
             _productRepository = productRepository;
             _categoryRepository = categoryRepository;
             _userManager = userRepository;
+            _roleManager = roleManager;
         }
 
         public ViewResult Order(int pageNow = 1)
@@ -112,7 +115,7 @@ namespace StorePractice.Controllers
                         .Skip((pageNow - 1) * PageSize)
                         .Take(PageSize),
 
-                Pages= new Page
+                Pages = new Page
                 {
                     TotalItem = _userManager.Users
                     .Include(u => u.HasProducts).Count(),
@@ -127,5 +130,26 @@ namespace StorePractice.Controllers
             });
         }
 
+        public ViewResult Roles(int pageNow = 1)
+        {
+            return View(new PageAndObjectDBViewModel
+            {
+                Roles = _roleManager.Roles
+                .OrderBy(r => r.Id)
+                .Skip((pageNow - 1) * PageSize)
+                .Take(PageSize),
+
+                Pages = new Page
+                {
+                    TotalItem = _roleManager.Roles.Count(),
+
+                    PageSize = this.PageSize
+                },
+
+                CurrentPage = pageNow,
+
+                ActionUrl = "Roles"
+            });
+        }
     }
 }
