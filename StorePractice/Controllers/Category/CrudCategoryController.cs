@@ -1,13 +1,16 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using StorePractice.Models;
 using StorePractice.Models.SqlModels;
 using System.Linq;
+using System.Security.Claims;
 
 namespace StorePractice.Controllers
 {
+    [Authorize]
     public class CrudCategoryController : Controller
     {
-        public EfCategoryRepository _categoryRepository;
+        private EfCategoryRepository _categoryRepository;
         public CrudCategoryController(EfCategoryRepository categories)
         {
             _categoryRepository = categories;
@@ -38,6 +41,7 @@ namespace StorePractice.Controllers
         [HttpPost]
         public RedirectToActionResult Create(Category category)
         {
+            category.OwnerId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             _categoryRepository.CreateCategory(category);
 
             return RedirectToAction("Category", "Admin");

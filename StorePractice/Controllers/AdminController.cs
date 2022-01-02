@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace StorePractice.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class AdminController : Controller
     {
         private EfOrderRepository _orderRepository;
@@ -40,15 +40,16 @@ namespace StorePractice.Controllers
 
         public ViewResult Order(int pageNow = 1)
         {
+            IQueryable<Order> orders = _orderRepository.GetOrders();
             return View(new PageAndObjectDBViewModel { 
-                Orders = _orderRepository.GetOrders()
+                Orders = orders
                 .OrderBy(o => o.OrderID)
                 .Skip((pageNow - 1) * PageSize)
                 .Take(PageSize),
 
                 Pages = new Page
                 {
-                    TotalItem = _orderRepository.GetOrders().Count(),
+                    TotalItem = orders.Count(),
 
                     PageSize = this.PageSize,
 
@@ -62,16 +63,17 @@ namespace StorePractice.Controllers
 
         public ViewResult Product(int pageNow = 1)
         {
+            IQueryable<Product> products = _productRepository.GetProducts();
             return View(new PageAndObjectDBViewModel
             {
-                Products = _productRepository.GetProducts()
+                Products = products
                 .OrderBy(p => p.ProductID)
                 .Skip((pageNow - 1) * PageSize)
                 .Take(PageSize),
 
                 Pages = new Page
                 {
-                    TotalItem = _productRepository.GetProducts().Count(),
+                    TotalItem = products.Count(),
 
                     PageSize = this.PageSize,
 
@@ -85,16 +87,17 @@ namespace StorePractice.Controllers
 
         public ViewResult Category(int pageNow = 1)
         {
+            IQueryable<Category> categories = _categoryRepository.GetCategories();
             return View(new PageAndObjectDBViewModel
             {
-                Categories = _categoryRepository.GetCategories()
+                Categories = categories
                 .OrderBy(c => c.CategoryID)
                 .Skip((pageNow - 1) * PageSize)
                 .Take(PageSize),
 
                 Pages = new Page
                 {
-                    TotalItem = _categoryRepository.GetCategories().Count(),
+                    TotalItem = categories.Count(),
 
                     PageSize = this.PageSize,
 
@@ -108,16 +111,17 @@ namespace StorePractice.Controllers
 
         public ViewResult Users(int pageNow = 1)
         {
+            IQueryable<User> users = _userManager.Users;
             return View(new PageAndObjectDBViewModel
             {
-                Users = _userManager.Users
+                Users =  users
                         .OrderBy(u => u.Id)
                         .Skip((pageNow - 1) * PageSize)
                         .Take(PageSize),
 
                 Pages = new Page
                 {
-                    TotalItem = _userManager.Users
+                    TotalItem = users
                     .Include(u => u.HasProducts).Count(),
 
                     PageSize= this.PageSize,
@@ -132,16 +136,20 @@ namespace StorePractice.Controllers
 
         public ViewResult Roles(int pageNow = 1)
         {
+            ViewBag.UserManager = _userManager;
+
+            IQueryable<IdentityRole> roles = _roleManager.Roles;
             return View(new PageAndObjectDBViewModel
             {
-                Roles = _roleManager.Roles
+                Roles = roles
+                .ToList()
                 .OrderBy(r => r.Id)
                 .Skip((pageNow - 1) * PageSize)
                 .Take(PageSize),
 
                 Pages = new Page
                 {
-                    TotalItem = _roleManager.Roles.Count(),
+                    TotalItem = roles.Count(),
 
                     PageSize = this.PageSize
                 },

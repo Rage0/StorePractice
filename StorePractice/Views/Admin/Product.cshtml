@@ -1,7 +1,7 @@
 ﻿@model PageAndObjectDBViewModel
 
 @{
-    ViewBag.Title = "Admin product";
+    ViewBag.Title = "Admin Product";
     ViewBag.NamePanel = "Admin Panel";
 }
 
@@ -12,7 +12,9 @@
     </div>
 
     <div class="button-content">
-        <a class="button-for-create" asp-action="EditOrCreate" asp-controller="Product" asp-route-productId="0">Create</a>
+        <a class="button-for-create" asp-action="EditOrCreate"
+        asp-route-returnUrl="@ViewContext.HttpContext.Request.PathAndQuery()"
+        asp-controller="Product" asp-route-productId="0">Create</a>
     </div>
     <div style="height: 1000px">
         <div style="max-height: 700px; min-height: 500px; overflow: auto;">
@@ -21,24 +23,20 @@
     border-collapse: collapse;
     font-size: 18px;">
                 <tr>
+                    <th>Id</th>
                     <th>Name</th>
                     <th>Price</th>
                     <th>Categories</th>
-                    <th>Id</th>
-
                 </tr>
                 @foreach (Product product in Model.Products)
                 {
                     <tr>
+                        <td>@product.ProductID</td>
                         <td>@product.Name</td>
                         <td>@product.Price</td>
-                        <td>
-                            @foreach (Category category in product.Categories)
-                            {
-                                <h5>@category.Name</h5>
-                            }
+                        <td style="text-align:center">
+                            @product.Categories.Count
                         </td>
-                        <td>@product.ProductID</td>
                         <td>
                             <form method="post" asp-action="Remove" asp-controller="CrudProduct" style="background: #d83333">
                                   <input type="hidden" name="id" value="@product.ProductID" />
@@ -46,7 +44,9 @@
                             </form>
                         </td>
                         <td>
-                            <a asp-action="EditOrCreate" asp-controller="Product" asp-route-productId="@product.ProductID">Edit</a>
+                            <a asp-action="EditOrCreate"
+                            asp-route-returnUrl="@ViewContext.HttpContext.Request.PathAndQuery()"
+                            asp-controller="Product" asp-route-productId="@product.ProductID">Edit</a>
                         </td>
                     </tr>
                 }
@@ -57,7 +57,9 @@
 else
 {
     <div class="button-content">
-        <a class="button-for-create" asp-action="EditOrCreate" asp-controller="Product" asp-route-orderId="0">Create</a>
+        <a class="button-for-create" asp-action="EditOrCreate"
+         asp-route-returnUrl="@ViewContext.HttpContext.Request.PathAndQuery()"
+         asp-controller="Product" asp-route-orderId="0">Create</a>
     </div>
     
     <h2 style="text-align:center">Product is not exist</h2>

@@ -18,8 +18,6 @@ namespace StorePractice
 {
     public class Startup
     {
-        // This method gets called by the runtime. Use this method to add services to the container.
-        // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public IConfiguration Configuration;
         public Startup(IConfiguration configuration)
         {
@@ -70,7 +68,6 @@ namespace StorePractice
                 .AddDefaultTokenProviders();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -84,6 +81,7 @@ namespace StorePractice
             app.UseSession();
             app.UseAuthentication();
             app.UseAuthorization();
+            AppIdentityContext.CreateAdminAccountAndRoles(app.ApplicationServices, Configuration).Wait();
             
 
             app.UseEndpoints(endpoints =>
@@ -108,6 +106,13 @@ namespace StorePractice
                     name: "CategoriesChar",
                     pattern: "{action=Categories}/Char/{charFilter}",
                     defaults: new { Controller = "Category", action = "Categories" }
+                );
+
+                endpoints.MapControllerRoute
+                (
+                    name: "CategoriesChar",
+                    pattern: "Account/{action=Login}",
+                    defaults: new { Controller = "User", action = "Login" }
                 );
 
                 endpoints.MapControllerRoute

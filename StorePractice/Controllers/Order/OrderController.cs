@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using StorePractice.Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace StorePractice.Controllers
 {
@@ -39,14 +40,23 @@ namespace StorePractice.Controllers
         [HttpPost]
         public IActionResult AddOrder(Order order)
         {
-            if (order.OrderID == 0)
+            if (ModelState.IsValid)
             {
-                order.Lines = _sessionCart.GetItem.ToArray();
-                _orderRepository.CreateOrder(order);
-                TempData.Add("Message", $"Your order added in a list orders {order.Name}");
+                if (order.OrderID == 0)
+                {
+                    order.Lines = _sessionCart.GetItem.ToArray();
+                    order.OwnerId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+                    _orderRepository.CreateOrder(order);
+                    TempData.Add("Message", $"Your order added in a list orders {order.Name}");
+                }
+                return RedirectToAction("ClearCart", "Cart");
+            }
+            else
+            {
+                return RedirectToAction("EditOrCreate", "Order", order.OrderID);
             }
             
-            return RedirectToAction("ClearCart", "Cart");
+            
         }
 
     }

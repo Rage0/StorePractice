@@ -1,7 +1,7 @@
 ﻿@model PageAndObjectDBViewModel
 
 @{
-    ViewBag.Title = "Admin order";
+    ViewBag.Title = "Admin Order";
     ViewBag.NamePanel = "Admin Panel";
 }
 
@@ -9,10 +9,6 @@
 {
     <div style="padding: 10px;">
         @await Html.PartialAsync("PartialHtml/Page", Model)
-    </div>
-
-    <div class="button-content">
-        <a class="button-for-create" asp-action="EditOrCreate" asp-controller="Order" asp-route-orderId="0">Create</a>
     </div>
 
     <div style="height: 1000px">
@@ -63,9 +59,6 @@
 }
 else
 {
-    <div class="button-content">
-        <a class="button-for-create" asp-action="EditOrCreate" asp-controller="Order" asp-route-orderId="0">Create</a>
-    </div>
     <h2 style="text-align:center">Order is not exist</h2>
 
 }

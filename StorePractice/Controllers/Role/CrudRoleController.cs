@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using StorePractice.Models;
+using StorePractice.Models.ViewModels;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 
@@ -8,10 +10,11 @@ namespace StorePractice.Controllers
     public class CrudRoleController : Controller
     {
         private RoleManager<IdentityRole> _roleManager;
-
-        public CrudRoleController(RoleManager<IdentityRole> roleManager)
+        private UserManager<User> _userManager;
+        public CrudRoleController(RoleManager<IdentityRole> roleManager, UserManager<User> userManager)
         {
             _roleManager = roleManager;
+            _userManager = userManager;
         }
 
         [HttpPost]
@@ -41,21 +44,46 @@ namespace StorePractice.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(string id, IdentityRole roleEdit)
+        public async Task<IActionResult> Edit(string id, RoleModification roleModification)
         {
+            IdentityResult result;
             if (ModelState.IsValid)
             {
                 IdentityRole role = await _roleManager.FindByIdAsync(id);
                 if (role != null)
                 {
-                    role.Name = roleEdit.Name;
+                    role.Name = roleModification.RoleName;
 
-                    IdentityResult result = await _roleManager.UpdateAsync(role);
-                    if (result.Succeeded)
+                    foreach (string userId in roleModification.ToAdd ?? new string[] { })
                     {
-                        return RedirectToAction("Roles", "Admin");
+                        User user = await _userManager.FindByIdAsync(userId);
+                        if (user != null)
+                        {
+                            result = await _userManager.AddToRoleAsync(user, roleModification.RoleName);
+                            if (result.Succeeded)
+                            {
+                                return RedirectToAction("Roles", "Admin");
+                            }
+                        }
                     }
+
+                    foreach (string userId in roleModification.ToDelete ?? new string[] { })
+                    {
+                        User user = await _userManager.FindByIdAsync(userId);
+                        if (user != null)
+                        {
+                            result = await _userManager.RemoveFromRoleAsync(user, roleModification.RoleName);
+                            if (result.Succeeded)
+                            {
+                                return RedirectToAction("Roles", "Admin");
+                            }
+                        }
+                    }
+
+                    await _roleManager.UpdateAsync(role);
+
                 }
+                return RedirectToAction("Roles", "Admin");
             }
             return RedirectToAction("EditRole", "Role", id);
         }

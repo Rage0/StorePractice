@@ -17,13 +17,12 @@ namespace StorePractice.Models
         public decimal Price { get; set; }
         public int Quantity { get; set; } = 1;
         public string Name { get; set; }
-        public string Discription { get; set; }
+        public string Description { get; set; }
 
         [JsonIgnore]
         [IgnoreDataMember]
         public List<Category> Categories { get; set; }
         
-        public User User { get; set; }
         public string OwnerId { get; set; }
 
         public bool Discount { get; set; }

@@ -267,7 +267,7 @@ namespace StorePractice.Migrations.AppIdentity
                     b.Property<bool>("Discount")
                         .HasColumnType("bit");
 
-                    b.Property<string>("Discription")
+                    b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")

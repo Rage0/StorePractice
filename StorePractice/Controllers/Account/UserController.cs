@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using StorePractice.Models;
 using StorePractice.Models.ViewModels;
 using System.Threading.Tasks;
+using System.Security.Claims;
 
 namespace StorePractice.Controllers
 {
@@ -38,9 +39,11 @@ namespace StorePractice.Controllers
             return RedirectToAction("Users", "Admin");
         }
 
-        public async Task<IActionResult> Profile(string name)
+        [Authorize]
+        public async Task<IActionResult> Profile()
         {
-            User user = await _userManager.FindByNameAsync(name);
+            string currentUserId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            User user = await _userManager.FindByIdAsync(currentUserId);
             if (user != null)
             {
                 return View(user);
@@ -50,7 +53,11 @@ namespace StorePractice.Controllers
         }
 
         [AllowAnonymous]
-        public ViewResult Login() => View(new LoginViewModel());
+        public ViewResult Login()
+        {
+            _signInManager.SignOutAsync();
+            return View(new LoginViewModel());
+        }
 
         [Authorize]
         public async Task<IActionResult> Logout()

@@ -3,7 +3,11 @@
 @{
     ViewBag.Title = "Admin Role";
     ViewBag.NamePanel = "Admin Panel";
+
+    UserManager<User> userManager = ViewBag.UserManager;
 }
+
+
 
 
 @if (Model.Roles.Count() != 0)
@@ -24,12 +28,16 @@
                    <tr>
                        <th>Id</th>
                        <th>Name</th>
+                       <th>Members</th>
                    </tr>
                    @foreach (IdentityRole role in Model.Roles)
                    {
-                        <tr>
+                    <tr>
                              <td>@role.Id</td>
                              <td>@role.Name</td>
+                             <td style="text-align:center">
+                                 @role.GetMembersToRoleAsync(userManager).Result.Count
+                             </td>
                              <td>
                                  <form asp-action="Delete" asp-controller="CrudRole">
                                      <input type="hidden" name="id" value="@role.Id"/>

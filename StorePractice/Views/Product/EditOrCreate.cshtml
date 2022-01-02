@@ -1,45 +1,60 @@
-﻿@model Product
+﻿@model ProductViewModel
 
 @{
     Layout = "_AdminLayout";
     ViewBag.Title = "EditOrCreate";
     ViewBag.NamePanel = "Create/Update product";
 
-    string route = Model.ProductID != 0 ? "Edit" : "Create";
+    string route = Model.Product.ProductID != 0 ? "Edit" : "Create";
 } 
 
 
-<form method="post" asp-action="@route" asp-controller="CrudProduct">
+<form method="post" asp-action="@route" asp-route-returnUrl="@ViewBag.ReturnUrl" asp-controller="CrudProduct">
     <table>
         <tr>
             <td>
-                <label asp-for="Name"></label>
-                <input asp-for="Name" value="@Model.Name" />
+                <label>Name:</label>
+                <input name="name" value="@Model.Product.Name" />
             </td>
         </tr>
         <tr>
             <td>
-                <label asp-for="Price"></label>
-                <input asp-for="Price" value="@Model.Price" />
+                <label>Price:</label>
+                <input name="price" value="@Model.Product.Price" />
             </td>
         </tr>
         <tr>
             <td>
-                <label asp-for="Discription"></label>
-                <textarea style="width: 500px; height: 200px" asp-for="Discription" value="@Model.Discription"></textarea>
+                <label>Description:</label>
+                <textarea style="width: 500px; height: 200px" name="description" value="@Model.Product.Description"></textarea>
             </td>
         </tr>
         <tr>
             <td>
-                <label asp-for="Quantity"></label>
-                <input asp-for="Quantity" value="@Model.Quantity" />
+                <label>Quantity:</label>
+                <input name="quantity" value="@Model.Product.Quantity" />
             </td>
         </tr>
-
+        <tr>
+            <td><h4>Has Categories:</h4></td>
+            @foreach (Category category in Model.HasCategories)
+           {
+              <td>@category.Name</td>
+              <td><input type="checkbox" name="toDelete" value="@category.CategoryID"/></td>
+           }
+        </tr>
+        <tr>
+            <td><h4>Add Categories:</h4></td>
+            @foreach (Category category in Model.HasNotCategories)
+           {
+              <td>@category.Name</td>
+              <td><input type="checkbox" name="toAdd" value="@category.CategoryID"/></td>
+           }
+        </tr>
     </table>
     @if (route == "Edit")
     {
-        <input type="hidden" name="productId" value="@Model.ProductID" />
+        <input type="hidden" name="productId" value="@Model.Product.ProductID" />
     }
     <button type="submit">@route</button>
 </form>

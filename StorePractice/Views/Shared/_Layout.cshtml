@@ -9,7 +9,7 @@
 <body>
     <div>
         <div class="flex-display">
-            <form asp-action="ClearFilter" asp-controller="FilterCategory" method="post">
+            <form asp-action="List" asp-controller="Product" method="post">
                 <button class="text-logo decorate-none"
                         style="background: initial; border: initial"
                         type="submit">Store Product</button>
@@ -21,8 +21,13 @@
                 <a asp-action="CartProduct" asp-controller="Cart" class="text-logo decorate-none" style="font-size: 22px;">
                     <i class="fa fa-sm fa-shopping-cart"></i>
                 </a>
-                <a asp-action="Profile" asp-controller="User" asp-route-name="@ViewContext.HttpContext.User.Identity.Name"
-                class="text-logo decorate-none" style="font-size: 22px;">
+                @if(ViewContext.HttpContext.User.IsInRole("Admin"))
+                {
+                   <a asp-action="Product" asp-controller="Admin" class="text-logo decorate-none" style="font-size: 22px;">
+                    <i class="fa fa-sm fa-user-edit "></i>
+                   </a>
+                }
+                <a asp-action="Profile" asp-controller="User" class="text-logo decorate-none" style="font-size: 22px;">
                     <i class="fa fa-sm fa-user "></i>
                 </a>
             </div>

@@ -21,14 +21,14 @@
         border-collapse: collapse;
         font-size: 18px;">
                 <tr>
-                    <th>Name</th>
                     <th>Id</th>
+                    <th>Name</th>
                 </tr>
                 @foreach (Category category in Model.Categories)
                 {
                     <tr>
-                        <td>@category.Name</td>
                         <td>@category.CategoryID</td>
+                        <td>@category.Name</td>
                         <td>
                             <form method="post" asp-action="Remove" asp-controller="CrudCategory">
                                   <input type="hidden" name="id" value="@category.CategoryID" />

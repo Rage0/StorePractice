@@ -13,3 +13,8 @@
     </tr>
 </table>
 <a asp-action="Logout" asp-controller="User">Logout</a>
+<a asp-action="EditOrCreate" asp-controller="Product" asp-route-productId="0"
+       asp-route-returnUrl="@ViewContext.HttpContext.Request.PathAndQuery()">Create product</a>
+
+<a asp-action="EditOrCreate" asp-controller="Category" asp-route-categoryId="0"
+       asp-route-returnUrl="@ViewContext.HttpContext.Request.PathAndQuery()">Create category</a>

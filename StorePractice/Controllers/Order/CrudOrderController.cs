@@ -1,13 +1,15 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using StorePractice.Models;
 using StorePractice.Models.SqlModels;
 using System.Linq;
 
 namespace StorePractice.Controllers
 {
+    [Authorize]
     public class CrudOrderController : Controller
     {
-        EfOrderRepository _orderRepository;
+        private EfOrderRepository _orderRepository;
         public CrudOrderController(EfOrderRepository orders)
         {
             _orderRepository = orders;

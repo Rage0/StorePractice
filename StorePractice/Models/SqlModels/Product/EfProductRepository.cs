@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using StorePractice.Models.ViewModels;
 
 namespace StorePractice.Models.SqlModels
 {
@@ -14,30 +15,69 @@ namespace StorePractice.Models.SqlModels
             _repository = repo;
         }
 
-        public void CreateProduct(Product product)
+        public void CreateProduct(ProductModificationViewModel product)
         {
-            if (product.Categories == null)
+            List<Category> categories = new List<Category>();
+
+            foreach (int categoryId in product.ToAdd ?? new int[] {})
             {
-                product.Categories = new List<Category>();
+                Category category = _repository.Categories.FirstOrDefault(c => c.CategoryID == categoryId);
+
+                if (category != null)
+                {
+                    categories.Add(category);
+                }
             }
-            else
+
+            Product newProduct = new Product()
             {
-                _repository.Attach(product.Categories);
-            }
-            _repository.Products.Add(product);
+                Name = product.Name,
+                Description = product.Description,
+                Price = product.Price,
+                Quantity = product.Quantity,
+                Categories = categories,
+                OwnerId = product.UserId,
+            };
+
+            _repository.Products.Add(newProduct);
             _repository.SaveChanges();
         }
 
-        public void UpdateProduct(Product product, int id)
+        public void UpdateProduct(ProductModificationViewModel product, int id)
         {
-            Product productForEdit = _repository.Products.Find(id);
+            Product productForEdit = _repository.Products.FirstOrDefault(p => p.ProductID == id);
 
-            productForEdit.Name = product.Name;
-            productForEdit.Price = product.Price;
-            productForEdit.Quantity = product.Quantity;
-            productForEdit.Discription = product.Discription;
-            productForEdit.Discount = product.Discount;
-            _repository.SaveChanges();
+            if (productForEdit != null)
+            {
+                productForEdit.Name = product.Name;
+                productForEdit.Price = product.Price;
+                productForEdit.Quantity = product.Quantity;
+                productForEdit.Description = product.Description;
+
+                foreach (int categoryId in product.ToAdd ?? new int[] { })
+                {
+                    Category category = _repository.Categories.FirstOrDefault(c => c.CategoryID == categoryId);
+
+                    if (category != null && !product.ProductCategories.Contains(category))
+                    {
+                        product.ProductCategories.Add(category);
+                    }
+                }
+
+                foreach (int categoryId in product.ToDelete ?? new int[] { })
+                {
+                    Category category = _repository.Categories.FirstOrDefault(c => c.CategoryID == categoryId);
+
+                    if (category != null && product.ProductCategories.Contains(category))
+                    {
+                        product.ProductCategories.Remove(category);
+                    }
+                }
+
+                productForEdit.Categories = product.ProductCategories;
+
+                _repository.SaveChanges();
+            }
         }
 
         public IQueryable<Product> GetProducts() => _repository.Products

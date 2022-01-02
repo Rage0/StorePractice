@@ -13,17 +13,20 @@
             <div style="margin-right: auto; margin-left: auto; pointer-events: none"
                class="text-logo decorate-none">@ViewBag.NamePanel</div>
         </div>
-        <div class="flex-display" style="padding: 5px; border-radius: 0 0 0 0; box-shadow: none;">
-            <table style="margin-left: auto; margin-right: auto;">
-                <tr>
-                    <td style="border: none"><a class="text-logo decorate-none" asp-action="Product" asp-controller="Admin">Product</a></td>
-                    <td style="border: none"><a class="text-logo decorate-none" asp-action="Category" asp-controller="Admin">Category</a></td>
-                    <td style="border: none"><a class="text-logo decorate-none" asp-action="Order" asp-controller="Admin">Order</a></td>
-                    <td style="border: none"><a class="text-logo decorate-none" asp-action="Users" asp-controller="Admin">User</a></td>
-                    <td style="border: none"><a class="text-logo decorate-none" asp-action="Roles" asp-controller="Admin">Roles</a></td>
-                </tr>
-            </table>
-        </div>
+        @if (ViewContext.HttpContext.User.IsInRole("Admin"))
+        {
+            <div class="flex-display" style="padding: 5px; border-radius: 0 0 0 0; box-shadow: none;">
+                <table style="margin-left: auto; margin-right: auto;">
+                    <tr>
+                        <td style="border: none"><a class="text-logo decorate-none" asp-action="Product" asp-controller="Admin">Product</a></td>
+                        <td style="border: none"><a class="text-logo decorate-none" asp-action="Category" asp-controller="Admin">Category</a></td>
+                        <td style="border: none"><a class="text-logo decorate-none" asp-action="Order" asp-controller="Admin">Order</a></td>
+                        <td style="border: none"><a class="text-logo decorate-none" asp-action="Users" asp-controller="Admin">User</a></td>
+                        <td style="border: none"><a class="text-logo decorate-none" asp-action="Roles" asp-controller="Admin">Roles</a></td>
+                    </tr>
+                </table>
+            </div>
+        }
     </div>
     <div>
         @RenderBody()

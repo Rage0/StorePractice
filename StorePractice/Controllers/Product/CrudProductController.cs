@@ -1,17 +1,27 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using StorePractice.Models;
 using StorePractice.Models.SqlModels;
+using StorePractice.Models.ViewModels;
+using System;
 using System.Linq;
+using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace StorePractice.Controllers
 {
+    [Authorize]
     public class CrudProductController : Controller
     {
-        EfProductRepository _productRepository;
+        private EfProductRepository _productRepository;
+        private UserManager<User> _userManager;
 
-        public CrudProductController(EfProductRepository products)
+        public CrudProductController(EfProductRepository products, UserManager<User> userManager)
         {
             _productRepository = products;
+            _userManager = userManager;
         }
 
         [HttpPost]
@@ -28,19 +38,27 @@ namespace StorePractice.Controllers
         }
 
         [HttpPost]
-        public RedirectToActionResult Edit(Product product, int productId)
+        public RedirectResult Edit(ProductModificationViewModel product, int productId, string returnUrl)
         {
-            _productRepository.UpdateProduct(product, productId);
+            product.ProductCategories = _productRepository
+                .GetProducts()
+                .FirstOrDefault(p => p.ProductID == productId)
+                .Categories;
 
-            return RedirectToAction("Product", "Admin");
+            _productRepository.UpdateProduct(product, productId);
+            
+            return Redirect(returnUrl);
         }
 
         [HttpPost]
-        public RedirectToActionResult Create(Product product)
+        public IActionResult Create(ProductModificationViewModel product, string returnUrl)
         {
+            string currentUserId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            product.UserId = currentUserId;
+
             _productRepository.CreateProduct(product);
 
-            return RedirectToAction("Product", "Admin");
+            return Redirect(returnUrl);
         }
     }
 }

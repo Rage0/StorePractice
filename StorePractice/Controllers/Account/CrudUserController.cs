@@ -4,21 +4,26 @@ using StorePractice.Models;
 using StorePractice.Models.ViewModels;
 using System.Threading.Tasks;
 using System;
+using Microsoft.AspNetCore.Authorization;
 
 namespace StorePractice.Controllers
 {
+    
     public class CrudUserController : Controller
     {
         private UserManager<User> _userManager;
+        private RoleManager<IdentityRole> _roleManager;
         private IUserValidator<User> _userValidator;
         private IPasswordValidator<User> _passwordValidator;
         private IPasswordHasher<User> _passwordHasher;
         public CrudUserController(UserManager<User> users,
+            RoleManager<IdentityRole> roleManager,
             IUserValidator<User> userValidator,
             IPasswordValidator<User> passwordValidator,
             IPasswordHasher<User> passwordHasher)
         {
             _userManager = users;
+            _roleManager = roleManager;
             _userValidator = userValidator;
             _passwordValidator = passwordValidator;
             _passwordHasher = passwordHasher;
@@ -39,6 +44,10 @@ namespace StorePractice.Controllers
 
                 if (result.Succeeded)
                 {
+                    if (await _roleManager.FindByNameAsync("User") != null)
+                    {
+                        await _userManager.AddToRoleAsync(user, "User");
+                    }
                     return RedirectToAction("Login", "User");
                 }
                 else
@@ -51,7 +60,7 @@ namespace StorePractice.Controllers
             }
             return RedirectToAction("Users", "Admin");
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> Edit(string id, UserViewModel userModel)
         {
@@ -97,7 +106,7 @@ namespace StorePractice.Controllers
                 throw new NullReferenceException();
             }
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> Delete(string id)
         {

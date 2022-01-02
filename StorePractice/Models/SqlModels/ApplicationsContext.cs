@@ -15,7 +15,7 @@ namespace StorePractice.Models.SqlModels
         public DbSet<Order> Orders { get; set; }
         public ApplicationsContext(DbContextOptions<ApplicationsContext> options) : base(options)
         {
-           /* Database.EnsureDeleted();*/
+            /*Database.EnsureDeleted();*/
             Database.EnsureCreated();
         }
 

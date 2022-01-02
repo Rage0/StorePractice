@@ -8,6 +8,7 @@ using StorePractice.Models.SqlModels;
 using StorePractice.Models;
 using StorePractice.Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace StorePractice.Controllers
 {
@@ -15,12 +16,19 @@ namespace StorePractice.Controllers
     {
         private EfProductRepository _productRepository;
         private LineCategories _sessionCategories;
+        private EfCategoryRepository _categoryRepository;
+        private UserManager<User> _userManager;
         public int PageSize { get; } = 20;
 
-        public ProductController(EfProductRepository repo, LineCategories line)
+        public ProductController(EfProductRepository repo,
+            LineCategories line,
+            EfCategoryRepository categoryRepository,
+            UserManager<User> userManager)
         {
             _productRepository = repo;
             _sessionCategories = line;
+            _categoryRepository = categoryRepository;
+            _userManager = userManager;
         }
 
         [AllowAnonymous]
@@ -28,7 +36,7 @@ namespace StorePractice.Controllers
         {
             return View(new PageAndObjectDBViewModel
             {
-                Products = _productRepository.GetProducts()
+                Products =_productRepository.GetProducts()
                 .ToList()
                 .OrderBy(p => p.ProductID)
                 .Where(p => SortCollectionCategory(p) ||
@@ -54,23 +62,73 @@ namespace StorePractice.Controllers
             });
         }
 
-        public IActionResult ProductProfile(int productId)
+        [Authorize]
+        public async Task<IActionResult> ProductProfile(int productId)
         {
-            return View(
-                _productRepository.GetProducts().FirstOrDefault(p => p.ProductID == productId));
+            Product product = _productRepository.GetProducts().FirstOrDefault(p => p.ProductID == productId);
+
+            ProductProfileViewModel profile = new ProductProfileViewModel
+            {
+                Product = product,
+
+                User = await _userManager.FindByIdAsync(product.OwnerId)
+            };
+
+            return View(profile);
         }
 
-
-        public ViewResult EditOrCreate(int productId)
+        [Authorize]
+        public ViewResult EditOrCreate(int productId, string returnUrl)
         {
+            List<Category> HasCategories = new List<Category>();
+            List<Category> HasNotCategories = new List<Category>();
+            ViewBag.ReturnUrl = returnUrl;
+
             if (productId != 0)
             {
                 Product product = _productRepository.GetProducts().FirstOrDefault(p => p.ProductID == productId);
-                return View(product);
+                
+                if (product != null)
+                {
+                    foreach (Category category in _categoryRepository.GetCategories())
+                    {
+                        if (!product.Categories.Contains(category))
+                        {
+                            HasNotCategories.Add(category);
+                        }
+                    }
+
+                    return View(new ProductViewModel()
+                    {
+                        Product = product,
+
+                        HasCategories = product.Categories,
+
+                        HasNotCategories = HasNotCategories 
+                    });
+                }
+                else
+                {
+                    return View(new ProductViewModel()
+                    {
+                        Product = new Product(),
+
+                        HasCategories = new List<Category>(),
+
+                        HasNotCategories = _categoryRepository.GetCategories().ToList()
+                    });
+                }
             }
             else
             {
-                return View(new Product());
+                return View(new ProductViewModel()
+                {
+                    Product = new Product(),
+
+                    HasCategories = new List<Category>(),
+
+                    HasNotCategories = _categoryRepository.GetCategories().ToList()
+                }) ;
             }
         }
 

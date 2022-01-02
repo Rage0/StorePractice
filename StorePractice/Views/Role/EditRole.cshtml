@@ -1,14 +1,54 @@
-﻿@model IdentityRole
+﻿@model RoleViewModel
+
+@{
+    Layout = "_AdminLayout";
+    ViewBag.NamePanel = "Edit role";
+    ViewBag.Title = "Edit role";
+}
 
 <form asp-action="Edit" asp-controller="CrudRole">
     <tabel>
         <tr>
             <td>
-                <label asp-for="Name"></label>
-                <input asp-for="Name" value="@Model.Name"/>
+                <label>Name:</label>
+                <input name="roleName" value="@Model.Role.Name"/>
             </td>
         </tr>
+        <tr>
+            <h4>Members</h4>
+            @if (Model.Members.Count() != 0)
+            {
+               @foreach (User user in Model.Members)
+               {
+                   <td>@user.UserName</td>
+                   <td>
+                        <input type="checkbox" name="toDelete" value="@user.Id">
+                   </td>
+               }
+            }
+            else
+            {
+                <td>All Users are Members</td>
+            }
+        </tr>
+        <tr>
+            <h4>NonMembers</h4>
+            @if (Model.NonMembers.Count() != 0)
+            {
+               @foreach (User user in Model.NonMembers)
+               {
+                   <td>@user.UserName</td>
+                   <td>
+                        <input type="checkbox" name="toAdd" value="@user.Id">
+                   </td>
+                }
+            }
+            else
+            {
+                <td>No Users are Members</td>
+            }
+        </tr>
     </tabel>
-    <input hidden="hidden" name="id" value="@Model.Id"/>
+    <input hidden="hidden" name="id" value="@Model.Role.Id"/>
     <button type="submit">Edit</button>
 </form>

@@ -5,6 +5,14 @@
 }
 
 <div class="filter-content">
+    @if (Model.SessionCategories.Categories.Any())
+    {
+        <form asp-action="ClearFilter" asp-controller="FilterCategory" method="post"> 
+            <button class="filter filter-delete"
+                        style="background: initial; border: initial"
+                        type="submit"><i class="fa fa-remove"></i></button>
+        </form>
+    }
     <a asp-controller="Category" asp-action="Categories" class="decorate-none">
         Filter <i class="fa fa-filter filter"></i>:
     </a>

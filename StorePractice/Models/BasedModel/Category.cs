@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -10,6 +11,7 @@ namespace StorePractice.Models
 {
     public class Category
     {
+        [Required]
         public string Name { get; set; }
         public int CategoryID { get; set; }
 
@@ -18,7 +20,6 @@ namespace StorePractice.Models
         [NotMapped]
         public List<Product> HasProducts { get; set; }
 
-        public User User { get; set; }
         public string OwnerId { get; set; }
     }
 }
