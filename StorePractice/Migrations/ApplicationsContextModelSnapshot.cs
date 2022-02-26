@@ -34,7 +34,7 @@ namespace StorePractice.Migrations
 
                     b.HasIndex("HasProductsProductID");
 
-                    b.ToTable("CategoryProduct");
+                    b.ToTable("CategoryProduct", (string)null);
                 });
 
             modelBuilder.Entity("StorePractice.Models.CartLine", b =>
@@ -60,7 +60,7 @@ namespace StorePractice.Migrations
 
                     b.HasIndex("ProductID");
 
-                    b.ToTable("CartLine");
+                    b.ToTable("CartLine", (string)null);
                 });
 
             modelBuilder.Entity("StorePractice.Models.Category", b =>
@@ -78,11 +78,16 @@ namespace StorePractice.Migrations
                     b.Property<string>("OwnerId")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("CategoryID");
 
                     b.HasIndex("Name");
 
-                    b.ToTable("Categories");
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Categories", (string)null);
                 });
 
             modelBuilder.Entity("StorePractice.Models.Order", b =>
@@ -120,13 +125,18 @@ namespace StorePractice.Migrations
                     b.Property<string>("OwnerId")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("Zip")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("OrderID");
 
-                    b.ToTable("Orders");
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Orders", (string)null);
                 });
 
             modelBuilder.Entity("StorePractice.Models.Product", b =>
@@ -144,7 +154,8 @@ namespace StorePractice.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("OwnerId")
                         .HasColumnType("nvarchar(max)");
@@ -155,6 +166,9 @@ namespace StorePractice.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("ProductID");
 
                     b.HasIndex("Discount");
@@ -163,7 +177,61 @@ namespace StorePractice.Migrations
 
                     b.HasIndex("Price");
 
-                    b.ToTable("Products");
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Products", (string)null);
+                });
+
+            modelBuilder.Entity("StorePractice.Models.User", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("UserName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("User", (string)null);
                 });
 
             modelBuilder.Entity("CategoryProduct", b =>
@@ -194,9 +262,45 @@ namespace StorePractice.Migrations
                     b.Navigation("Product");
                 });
 
+            modelBuilder.Entity("StorePractice.Models.Category", b =>
+                {
+                    b.HasOne("StorePractice.Models.User", "User")
+                        .WithMany("HasCategories")
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("StorePractice.Models.Order", b =>
+                {
+                    b.HasOne("StorePractice.Models.User", "User")
+                        .WithMany("HasOrders")
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("StorePractice.Models.Product", b =>
+                {
+                    b.HasOne("StorePractice.Models.User", "User")
+                        .WithMany("HasProducts")
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("StorePractice.Models.Order", b =>
                 {
                     b.Navigation("Lines");
+                });
+
+            modelBuilder.Entity("StorePractice.Models.User", b =>
+                {
+                    b.Navigation("HasCategories");
+
+                    b.Navigation("HasOrders");
+
+                    b.Navigation("HasProducts");
                 });
 #pragma warning restore 612, 618
         }

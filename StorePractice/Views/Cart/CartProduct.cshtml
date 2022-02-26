@@ -12,11 +12,23 @@
 }
 else
 {
-    @foreach (CartLine cartLine in Model.GetItem)
-    {
-        <div><h3>Name: @cartLine.Product.Name</h3> <h3>Quantity: @cartLine.Quantity</h3></div>
-    }
+    <div class="border-limit" style="margin-left: 500px; margin-right: 500px; border-style: solid; border-collapse: collapse; overflow: auto">
+        
+            @foreach (CartLine cartLine in Model.GetItem)
+            {
+             <div style="display:flex; padding: 10px; justify-content:center; border: solid; border-color: grey;">
+                <div style="padding:10px; font-size: 25px">Name: @cartLine.Product.Name</div>
+                <div style="padding:10px; font-size: 25px"> Quantity: @cartLine.Quantity</div>
+                <div style="padding:10px; font-size: 25px"> Price: @cartLine.Product.Price</div>
+             </div>
+            }
+        
+    </div>
+    <div style="text-align: center;">
+        <a asp-action="List" asp-controller="Product" class="decorate-none button-for-create">Continue to shopping</a>
+        <a asp-action="Checkout" asp-controller="Order" class="decorate-none button-for-create">Checkout</a>
+    </div>
+    
 
-    <a asp-action="List" asp-controller="Product">Continue to shopping</a>
-    <a asp-action="Checkout" asp-controller="Order">Checkout</a>
+    
 }

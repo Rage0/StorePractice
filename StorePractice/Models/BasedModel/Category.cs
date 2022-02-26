@@ -11,7 +11,7 @@ namespace StorePractice.Models
 {
     public class Category
     {
-        [Required]
+        [Required(ErrorMessage = "Name is not correct")]
         public string Name { get; set; }
         public int CategoryID { get; set; }
 
@@ -19,7 +19,6 @@ namespace StorePractice.Models
         [IgnoreDataMember]
         [NotMapped]
         public List<Product> HasProducts { get; set; }
-
         public string OwnerId { get; set; }
     }
 }

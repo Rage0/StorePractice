@@ -20,7 +20,15 @@ namespace StorePractice.Models.SqlModels
 
         public void RemoveCategory(Category category)
         {
+            _repository.Categories.Attach(category);
             _repository.Categories.Remove(category);
+            _repository.SaveChanges();
+        }
+
+        public void RemoveCategory(ICollection<Category> categories)
+        {
+            _repository.Categories.AttachRange(categories);
+            _repository.Categories.RemoveRange(categories);
             _repository.SaveChanges();
         }
 
@@ -33,6 +41,7 @@ namespace StorePractice.Models.SqlModels
         public void UpdateCategory(Category category, int id)
         {
             Category categoryForEdit = _repository.Categories.Find(id);
+            _repository.Categories.Attach(categoryForEdit);
 
             categoryForEdit.Name = category.Name;
             _repository.SaveChanges();

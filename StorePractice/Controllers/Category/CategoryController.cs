@@ -32,8 +32,9 @@ namespace StorePractice.Controllers
             });
         }
 
-        public ViewResult EditOrCreate(int categoryId)
+        public ViewResult EditOrCreate(int categoryId, string returnUrl)
         {
+            ViewBag.ReturnUrl = returnUrl;
             if (categoryId != 0)
             {
                 Category category = _categoryRepository.GetCategories().FirstOrDefault(c => c.CategoryID == categoryId);

@@ -3,17 +3,67 @@
 @{
     ViewBag.Title = "Product profile";
 
-    string nameUser = Model.User != null ? Model.User.UserName : "NoName";
+    string userName = Model.User != null ? Model.User.UserName : "No Name";
 }
 
-<div>
-    <h2>User: @nameUser</h2>
-    <h2>@Model.Product.Name</h2>
-    <h3>@Model.Product.Description</h3>
-    <h2>@Model.Product.Price</h2>
-    <h4>@Model.Product.Quantity</h4>
+<div class="border-limit modifier">
+
+    <div style="display: inline-flex;">
+
+        <div class="display-inline-block">
+            <div class="text-product-profile">
+                @Model.Product.Name
+            </div>
+
+            <div style="border: 1px solid #d1d5fb;
+                        height: 300px;
+                        width: 300px;
+                        padding:inherit">
+            </div>
+
+            <div class="text-product-profile" style="text-align: left; margin: 0; margin-top: 60px;">
+                Quantity: @Model.Product.Quantity
+            </div>
+            <div class="text-product-profile" style="text-align: left; margin: 0; margin-top: 60px;">
+                Owner: @userName
+            </div>
+        </div>
+
+        <div class="display-inline-block">
+
+            <div class="text-product-profile" style="text-align: left;margin-top: 50px;">
+                Price: @Model.Product.Price
+            </div>
+
+            <div class="text-product-profile" style="text-align: left; font-size: 20px; padding: 20px; padding-left: 0px;">
+                <a asp-action="AddToCart" asp-controller="Cart" class="button-for-create" asp-route-productId="@Model.Product.ProductID"
+                style="padding-left: 30px; padding-right: 30px">Add to cart</a>
+            </div>
+
+            <div class="text-product-profile">
+                <div class="border-limit border-limit-textarea" style="max-height: 400px;
+                                                                       max-width: 800px;">
+                    @Model.Product.Description
+                </div>
+            </div>
+
+            <div style="display: inline-flex;">
+                <div class="text-product-profile" style="font-size: 20px"><h4>Categories: </h4></div>
+                @foreach (Category category in Model.Product.Categories ?? new List<Category> {})
+                {
+                   <div class="text-product-profile" style="text-align: left; font-size: 20px;">
+                       @category.Name
+                   </div>
+                }
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="text-product-profile">
+        <a asp-action="List" asp-controller="Product" class="decorate-none">Cancel</a>
+    </div>
 </div>
-<form asp-action="AddToCart" asp-controller="Cart" method="post">
-    <input type="hidden" name="productId" value="@Model.Product.ProductID" />
-    <button type="submit">Add</button>
-</form>
+
+

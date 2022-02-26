@@ -5,6 +5,8 @@ using StorePractice.Models;
 using StorePractice.Models.ViewModels;
 using System.Threading.Tasks;
 using System.Security.Claims;
+using StorePractice.Models.SqlModels;
+using System.Linq;
 
 namespace StorePractice.Controllers
 {
@@ -13,10 +15,20 @@ namespace StorePractice.Controllers
     {
         private UserManager<User> _userManager;
         private SignInManager<User> _signInManager;
-        public UserController(UserManager<User> userManager, SignInManager<User> signInManager)
+        private EfProductRepository _productRepository;
+        private EfCategoryRepository _categoryRepository;
+        private EfOrderRepository _orderRepository;
+        public UserController(UserManager<User> userManager,
+            SignInManager<User> signInManager,
+            EfProductRepository productRepository,
+            EfOrderRepository orderRepository,
+            EfCategoryRepository categoryRepository)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _productRepository = productRepository;
+            _orderRepository = orderRepository;
+            _categoryRepository = categoryRepository;
         }
 
         [AllowAnonymous]
@@ -46,7 +58,16 @@ namespace StorePractice.Controllers
             User user = await _userManager.FindByIdAsync(currentUserId);
             if (user != null)
             {
-                return View(user);
+                return View(new ProfileViewModel
+                {
+                    User = user,
+
+                    Products = _productRepository.GetProducts().Where(p => p.OwnerId == user.Id).ToList(),
+
+                    Categories = _categoryRepository.GetCategories().Where(c => c.OwnerId == user.Id).ToList(),
+
+                    Orders = _orderRepository.GetOrders().Where(o => o.OwnerId == user.Id).ToList(),
+                });
             }
 
             return Redirect(nameof(Login));

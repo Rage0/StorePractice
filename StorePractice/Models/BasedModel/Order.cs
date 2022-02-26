@@ -12,19 +12,19 @@ namespace StorePractice.Models
     {
         public int OrderID { get; set; }
         public ICollection<CartLine> Lines { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Name is not correct")]
         public string Name { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Line 1 is not correct")]
         public string Line1 { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Line 2 is not correct")]
         public string Line2 { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Line 3 is not correct")]
         public string Line3 { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Country is not correct")]
         public string Country { get; set; }
-        [Required]
+        [Required(ErrorMessage = "City is not correct")]
         public string City { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Zip is not correct")]
         public string Zip { get; set; }
         public string OwnerId { get; set; }
     }

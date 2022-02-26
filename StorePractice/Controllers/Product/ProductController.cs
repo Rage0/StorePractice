@@ -18,7 +18,7 @@ namespace StorePractice.Controllers
         private LineCategories _sessionCategories;
         private EfCategoryRepository _categoryRepository;
         private UserManager<User> _userManager;
-        public int PageSize { get; } = 20;
+        public int PageSize { get; } = 24;
 
         public ProductController(EfProductRepository repo,
             LineCategories line,
@@ -71,7 +71,7 @@ namespace StorePractice.Controllers
             {
                 Product = product,
 
-                User = await _userManager.FindByIdAsync(product.OwnerId)
+                User = await _userManager.FindByIdAsync(product.OwnerId),
             };
 
             return View(profile);

@@ -48,5 +48,11 @@ namespace StorePractice.Models.SqlModels
             _repository.Remove(order);
             _repository.SaveChanges();
         }
+
+        public void RemoveOrder(ICollection<Order> orders)
+        {
+            _repository.RemoveRange(orders);
+            _repository.SaveChanges();
+        }
     }
 }

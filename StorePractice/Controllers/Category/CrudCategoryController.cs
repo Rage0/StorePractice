@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using StorePractice.Models;
 using StorePractice.Models.SqlModels;
 using System.Linq;
 using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace StorePractice.Controllers
 {
@@ -11,9 +13,11 @@ namespace StorePractice.Controllers
     public class CrudCategoryController : Controller
     {
         private EfCategoryRepository _categoryRepository;
-        public CrudCategoryController(EfCategoryRepository categories)
+        private UserManager<User> _userManager;
+        public CrudCategoryController(EfCategoryRepository categories, UserManager<User> userManager)
         {
             _categoryRepository = categories;
+            _userManager = userManager;
         }
 
         [HttpPost]
@@ -31,20 +35,27 @@ namespace StorePractice.Controllers
         }
 
         [HttpPost]
-        public RedirectToActionResult Edit(Category category, int categoryId)
+        public RedirectResult Edit(Category category, int categoryId, string returnUrl)
         {
             _categoryRepository.UpdateCategory(category, categoryId);
 
-            return RedirectToAction("Category", "Admin");
+            return Redirect(returnUrl);
         }
 
         [HttpPost]
-        public RedirectToActionResult Create(Category category)
+        public async Task<RedirectResult> Create(Category category, string returnUrl)
         {
-            category.OwnerId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            string currentUserId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+            User user = await _userManager.FindByIdAsync(currentUserId);
+            if (user != null)
+            {
+                category.OwnerId = currentUserId;
+            }
+            
             _categoryRepository.CreateCategory(category);
 
-            return RedirectToAction("Category", "Admin");
+            return Redirect(returnUrl);
         }
     }
 }

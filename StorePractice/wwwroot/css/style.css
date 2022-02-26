@@ -34,8 +34,7 @@ div.pad {
     display: flex;
     flex-wrap: wrap;
     padding: 15px;
-    margin-right: 35px;
-    margin-left: 35px;
+    justify-content: space-between;
 }
 
 .pad.pad-category
@@ -54,11 +53,48 @@ div.pad {
     background: #eaf0ff;
 }
 
+.border-limit.modifier {
+        margin-right: 200px;
+        margin-left: 200px;
+        min-height: 85%;
+        padding: 15px;
+        box-shadow: 0px 0px 100px #6038b9;
+        border-radius: 2px 2px 40px 40px
+}
+
+.border-limit-textarea {
+    border: double #d1d5fb;
+    padding: 10px;
+    text-align: justify;
+    height: 400px;
+    width: 800px;
+    margin: 20px;
+    margin-left: 0px;
+    font-size: 20px;
+    overflow: auto
+}
+
+.display-inline-block {
+    display: inline-block;
+    padding: 50px;
+}
+
 .button-for-create {
     text-decoration: none;
     font-size: 20px;
     color: #eaf0ff;
     padding: 5px;
     background: #9b6dff
+}
+
+.content{
+    padding: 30px;
+}
+
+.input-style {
+    width: 50em;
+    height: 30px;
+    border-color: #a580f6;
+    border-radius: 5px 5px 5px 5px;
 }
 

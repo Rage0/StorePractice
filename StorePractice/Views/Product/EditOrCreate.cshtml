@@ -26,7 +26,9 @@
         <tr>
             <td>
                 <label>Description:</label>
-                <textarea style="width: 500px; height: 200px" name="description" value="@Model.Product.Description"></textarea>
+                <textarea style="width: 500px; height: 200px;
+                max-width: 500px; max-height: 200px; overflow: auto;"
+                name="description">@Model.Product.Description</textarea>
             </td>
         </tr>
         <tr>

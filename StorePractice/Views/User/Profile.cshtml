@@ -1,4 +1,4 @@
-﻿@model User
+﻿@model ProfileViewModel
 
 @{
     ViewBag.Title = "Profile";
@@ -6,10 +6,24 @@
 
 <table>
     <tr>
-        <td>@Model.UserName</td>
+        <td>@Model.User.UserName</td>
     </tr>
     <tr>
-        <td>@Model.Email</td>
+        <td>@Model.User.Email</td>
+    </tr>
+    <tr>
+        <td><h4>Products:</h4></td>
+        @foreach (Product product in Model.Products)
+        {
+           <td>@product.Name</td>
+        }
+    </tr>
+    <tr>
+        <td><h4>Categories:</h4></td>
+        @foreach (Category category in Model.Categories)
+        {
+           <td>@category.Name</td>
+        }
     </tr>
 </table>
 <a asp-action="Logout" asp-controller="User">Logout</a>

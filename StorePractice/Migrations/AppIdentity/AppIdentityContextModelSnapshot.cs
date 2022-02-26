@@ -22,21 +22,6 @@ namespace StorePractice.Migrations.AppIdentity
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("CategoryProduct", b =>
-                {
-                    b.Property<int>("CategoriesCategoryID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("HasProductsProductID")
-                        .HasColumnType("int");
-
-                    b.HasKey("CategoriesCategoryID", "HasProductsProductID");
-
-                    b.HasIndex("HasProductsProductID");
-
-                    b.ToTable("CategoryProduct");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -205,14 +190,20 @@ namespace StorePractice.Migrations.AppIdentity
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CategoryID"), 1L, 1);
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserId")
+                    b.Property<string>("OwnerId")
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<int?>("ProductID")
+                        .HasColumnType("int");
 
                     b.HasKey("CategoryID");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("OwnerId");
+
+                    b.HasIndex("ProductID");
 
                     b.ToTable("Category");
                 });
@@ -226,32 +217,39 @@ namespace StorePractice.Migrations.AppIdentity
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderID"), 1L, 1);
 
                     b.Property<string>("City")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Country")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Line1")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Line2")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Line3")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserId")
+                    b.Property<string>("OwnerId")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Zip")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("OrderID");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("OwnerId");
 
                     b.ToTable("Order");
                 });
@@ -264,14 +262,18 @@ namespace StorePractice.Migrations.AppIdentity
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProductID"), 1L, 1);
 
-                    b.Property<bool>("Discount")
-                        .HasColumnType("bit");
-
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("Discount")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("OwnerId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
@@ -279,12 +281,9 @@ namespace StorePractice.Migrations.AppIdentity
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("ProductID");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("OwnerId");
 
                     b.ToTable("Product");
                 });
@@ -354,21 +353,6 @@ namespace StorePractice.Migrations.AppIdentity
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("CategoryProduct", b =>
-                {
-                    b.HasOne("StorePractice.Models.Category", null)
-                        .WithMany()
-                        .HasForeignKey("CategoriesCategoryID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("StorePractice.Models.Product", null)
-                        .WithMany()
-                        .HasForeignKey("HasProductsProductID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -435,28 +419,43 @@ namespace StorePractice.Migrations.AppIdentity
 
             modelBuilder.Entity("StorePractice.Models.Category", b =>
                 {
-                    b.HasOne("StorePractice.Models.User", null)
+                    b.HasOne("StorePractice.Models.User", "User")
                         .WithMany("HasCategories")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("OwnerId");
+
+                    b.HasOne("StorePractice.Models.Product", null)
+                        .WithMany("Categories")
+                        .HasForeignKey("ProductID");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("StorePractice.Models.Order", b =>
                 {
-                    b.HasOne("StorePractice.Models.User", null)
+                    b.HasOne("StorePractice.Models.User", "User")
                         .WithMany("HasOrders")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("OwnerId");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("StorePractice.Models.Product", b =>
                 {
-                    b.HasOne("StorePractice.Models.User", null)
+                    b.HasOne("StorePractice.Models.User", "User")
                         .WithMany("HasProducts")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("OwnerId");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("StorePractice.Models.Order", b =>
                 {
                     b.Navigation("Lines");
+                });
+
+            modelBuilder.Entity("StorePractice.Models.Product", b =>
+                {
+                    b.Navigation("Categories");
                 });
 
             modelBuilder.Entity("StorePractice.Models.User", b =>

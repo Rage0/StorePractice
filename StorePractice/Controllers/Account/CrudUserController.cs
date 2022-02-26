@@ -5,6 +5,8 @@ using StorePractice.Models.ViewModels;
 using System.Threading.Tasks;
 using System;
 using Microsoft.AspNetCore.Authorization;
+using StorePractice.Models.SqlModels;
+using System.Linq;
 
 namespace StorePractice.Controllers
 {
@@ -13,6 +15,9 @@ namespace StorePractice.Controllers
     {
         private UserManager<User> _userManager;
         private RoleManager<IdentityRole> _roleManager;
+        private EfProductRepository _productRepository;
+        private EfCategoryRepository _categoryRepository;
+        private EfOrderRepository _orderRepository;
         private IUserValidator<User> _userValidator;
         private IPasswordValidator<User> _passwordValidator;
         private IPasswordHasher<User> _passwordHasher;
@@ -20,13 +25,19 @@ namespace StorePractice.Controllers
             RoleManager<IdentityRole> roleManager,
             IUserValidator<User> userValidator,
             IPasswordValidator<User> passwordValidator,
-            IPasswordHasher<User> passwordHasher)
+            IPasswordHasher<User> passwordHasher,
+            EfProductRepository productRepository,
+            EfCategoryRepository categoryRepository,
+            EfOrderRepository orderRepository)
         {
             _userManager = users;
             _roleManager = roleManager;
             _userValidator = userValidator;
             _passwordValidator = passwordValidator;
             _passwordHasher = passwordHasher;
+            _productRepository = productRepository;
+            _categoryRepository = categoryRepository;
+            _orderRepository = orderRepository;
         }
 
         [HttpPost]
@@ -113,7 +124,15 @@ namespace StorePractice.Controllers
             User user = await _userManager.FindByIdAsync(id);
             if (user != null)
             {
-               await _userManager.DeleteAsync(user);
+                var products = _productRepository.GetProducts().Where(p => p.OwnerId == user.Id).ToList();
+                var orders = _orderRepository.GetOrders().Where(p => p.OwnerId == user.Id).ToList();
+                var categories = _categoryRepository.GetCategories().Where(p => p.OwnerId == user.Id).ToList();
+
+                _productRepository.RemoveProduct(products);
+                _categoryRepository.RemoveCategory(categories);
+                _orderRepository.RemoveOrder(orders);
+
+                await _userManager.DeleteAsync(user);
             }
             return RedirectToAction("Users", "Admin");
         }

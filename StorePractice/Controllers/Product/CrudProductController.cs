@@ -51,10 +51,15 @@ namespace StorePractice.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(ProductModificationViewModel product, string returnUrl)
+        public async Task<IActionResult> Create(ProductModificationViewModel product, string returnUrl)
         {
             string currentUserId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            product.UserId = currentUserId;
+
+            User user = await _userManager.FindByIdAsync(currentUserId);
+            if (user != null)
+            {
+                product.UserId = currentUserId;
+            }
 
             _productRepository.CreateProduct(product);
 

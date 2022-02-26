@@ -4,36 +4,36 @@
     ViewBag.Title = "Checkout";
 }
 
-<div style="padding: 30px;">
-    <form asp-action="AddOrder" asp-controller="Order" method="post">
-        <div>
+<div class="border-limit modifier" style="padding: 30px;">
+    <form asp-action="AddOrder" asp-controller="Order" style="text-align: center; font-size: 25px;" method="post">
+        <div class="content">
             <label asp-for="Name"></label>
-            <input asp-for="Name" value="" />
+            <input asp-for="Name" class="input-style" value="" />
         </div>
-        <div>
+        <div class="content">
             <label asp-for="Line1"></label>
-            <input asp-for="Line1" value="" />
+            <input asp-for="Line1" class="input-style" value="" />
         </div>
-        <div>
+        <div class="content">
             <label asp-for="Line2"></label>
-            <input asp-for="Line2" value="" />
+            <input asp-for="Line2" class="input-style" value="" />
         </div>
-        <div>
+        <div class="content">
             <label asp-for="Line3"></label>
-            <input asp-for="Line3" value="" />
+            <input asp-for="Line3" class="input-style" value="" />
         </div>
-        <div>
+        <div class="content">
             <label asp-for="City"></label>
-            <input asp-for="City" value="" />
+            <input asp-for="City" class="input-style" value="" />
         </div>
-        <div>
+        <div class="content">
             <label asp-for="Country"></label>
-            <input asp-for="Country" value="" />
+            <input asp-for="Country" class="input-style" value="" />
         </div>
-        <div>
+        <div class="content">
             <label asp-for="Zip"></label>
-            <input asp-for="Zip" value="" />
+            <input asp-for="Zip" class="input-style" value="" />
         </div>
-        <button type="submit">Send the order</button>
+        <button type="submit" class="button-for-create" style="text-decoration: none; font-size: 20px; margin: 10px">Send the order</button>
     </form>
 </div>

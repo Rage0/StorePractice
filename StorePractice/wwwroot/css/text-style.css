@@ -22,6 +22,11 @@
     margin-left: auto;
 }
 
+.text-product-profile {
+    text-align: center;
+    margin: 10px;
+    font-size: 30px
+}
 .style-discount
 {
     float: right;

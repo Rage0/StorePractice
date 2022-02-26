@@ -9,7 +9,7 @@
 } 
 
 
-<form method="post" asp-action="@route" asp-controller="CrudCategory">
+<form method="post" asp-action="@route" asp-route-returnUrl="@ViewBag.ReturnUrl" asp-controller="CrudCategory">
     <table>
         <tr>
             <td>

@@ -46,6 +46,7 @@ namespace StorePractice.Models.SqlModels
         public void UpdateProduct(ProductModificationViewModel product, int id)
         {
             Product productForEdit = _repository.Products.FirstOrDefault(p => p.ProductID == id);
+            _repository.Products.Attach(productForEdit);
 
             if (productForEdit != null)
             {
@@ -85,7 +86,15 @@ namespace StorePractice.Models.SqlModels
 
         public void RemoveProduct(Product product)
         {
+            _repository.Products.Attach(product);
             _repository.Products.Remove(product);
+            _repository.SaveChanges();
+        }
+
+        public void RemoveProduct(ICollection<Product> products)
+        {
+            _repository.Products.AttachRange(products);
+            _repository.Products.RemoveRange(products);
             _repository.SaveChanges();
         }
     }

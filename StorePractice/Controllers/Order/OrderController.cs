@@ -44,19 +44,28 @@ namespace StorePractice.Controllers
             {
                 if (order.OrderID == 0)
                 {
-                    order.Lines = _sessionCart.GetItem.ToArray();
-                    order.OwnerId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-                    _orderRepository.CreateOrder(order);
-                    TempData.Add("Message", $"Your order added in a list orders {order.Name}");
+                    if (order.Lines != null)
+                    {
+                        order.Lines = _sessionCart.GetItem.ToArray();
+                        order.OwnerId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+                        _orderRepository.CreateOrder(order);
+                        TempData.Add("Message", $"Your order added in a list orders {order.Name}");
+                        return RedirectToAction("ClearCart", "Cart");
+                    }
+                    else
+                    {
+                        TempData.Add("Message", $"Product not selected");
+                        return RedirectToAction("List", "Product");
+                    }
+                    
                 }
-                return RedirectToAction("ClearCart", "Cart");
+                else
+                {
+                    return RedirectToAction("EditOrCreate", "Order", order.OrderID);
+                }
             }
-            else
-            {
-                return RedirectToAction("EditOrCreate", "Order", order.OrderID);
-            }
-            
-            
+            return RedirectToAction("Checkout", "Order");
+
         }
 
     }
